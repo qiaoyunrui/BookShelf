@@ -3,8 +3,8 @@ package com.juhezi.bookshelf;
 /**
  * Created by qiaoyunrui on 16-8-3.
  */
-public class BaseView {
+public interface BaseView<T> {
 
-    private static final String TAG = "BaseView";
+    void setPresenter(T presenter);
 
 }

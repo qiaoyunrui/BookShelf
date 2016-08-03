@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">BookShelf</string>
+    <string name="string_temp">Temp</string>
 </resources>

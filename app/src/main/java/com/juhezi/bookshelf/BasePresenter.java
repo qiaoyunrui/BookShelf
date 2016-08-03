@@ -3,8 +3,8 @@ package com.juhezi.bookshelf;
 /**
  * Created by qiaoyunrui on 16-8-3.
  */
-public class BasePresenter {
+public interface BasePresenter {
 
-    private static final String TAG = "BasePresenter";
+    void start();
 
 }
