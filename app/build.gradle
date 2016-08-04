@@ -30,6 +30,7 @@ dependencies {
     compile rootProject.ext.libSupportAppcomponent
     compile rootProject.ext.libSupportDesign
     compile rootProject.ext.libSupportRecyclerView
+    compile rootProject.ext.libSupportCardView
     compile rootProject.ext.libSupportV4
     compile rootProject.ext.libGson
     compile rootProject.ext.libJuWidget

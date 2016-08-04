@@ -44,6 +44,7 @@ project.ext {
     libSupportAppcomponent = "com.android.support:appcompat-v7:${supportVersion}"
     libSupportDesign = "com.android.support:design:${supportVersion}"
     libSupportRecyclerView = "com.android.support:recyclerview-v7:${supportVersion}"
+    libSupportCardView = "com.android.support:cardview-v7:${supportVersion}"
     libSupportV4 = "com.android.support:support-v4:${supportVersion}"
 
     libGson = "com.google.code.gson:gson:${gsonVersion}"
