@@ -3,4 +3,7 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="cardview_height">300dp</dimen>
+    <dimen name="imageview_height">200dp</dimen>
+    <dimen name="title_size">40sp</dimen>
+    <dimen name="state_size">30dp</dimen>
 </resources>

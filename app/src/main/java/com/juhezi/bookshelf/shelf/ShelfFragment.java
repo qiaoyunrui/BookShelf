@@ -12,6 +12,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.juhezi.bookshelf.R;
+import com.juhezi.bookshelf.dataModule.BookSimInfo;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by qiaoyunrui on 16-8-3.
@@ -25,6 +29,8 @@ public class ShelfFragment extends Fragment implements ShelfContract.View {
     private RecyclerView mRvList;
     private FloatingActionButton mFabShow;
     private SwipeRefreshLayout mSrl_refresh;
+
+    private List<BookSimInfo> dataList = new ArrayList<>();
 
     @Nullable
     @Override
@@ -42,6 +48,7 @@ public class ShelfFragment extends Fragment implements ShelfContract.View {
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRvList.setLayoutManager(layoutManager);
         mRvList.setHasFixedSize(true);
+//        BookSimInfo temp = new BookSimInfo();
     }
 
     @Override

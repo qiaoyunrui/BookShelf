@@ -12,13 +12,23 @@ public class BookSimInfo {
     private String author;
     private String imageUrl;
     private BookState state;    //阅读进度
+    private String desc;
 
-    public BookSimInfo(String author, String imageUrl, String isbn, BookState state, String title) {
-        this.author = author;
-        this.imageUrl = imageUrl;
-        this.isbn = isbn;
-        this.state = state;
+    public BookSimInfo(String title, BookState state, String isbn, String imageUrl, String desc, String author) {
         this.title = title;
+        this.state = state;
+        this.isbn = isbn;
+        this.imageUrl = imageUrl;
+        this.desc = desc;
+        this.author = author;
+    }
+
+    public String getDesc() {
+        return desc;
+    }
+
+    public void setDesc(String desc) {
+        this.desc = desc;
     }
 
     public String getAuthor() {
