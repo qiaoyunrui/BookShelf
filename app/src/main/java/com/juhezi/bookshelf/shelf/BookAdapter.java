@@ -1,6 +1,7 @@
 package com.juhezi.bookshelf.shelf;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +31,11 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BookViewHodler
 
     public BookAdapter(List<BookSimInfo> dataList) {
         this.dataList = dataList;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return super.getItemViewType(position);
     }
 
     @Override

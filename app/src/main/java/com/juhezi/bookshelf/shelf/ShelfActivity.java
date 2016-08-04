@@ -11,13 +11,17 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.juhezi.bookshelf.R;
+import com.juhezi.bookshelf.data.BooksRepository;
+import com.juhezi.bookshelf.data.local.BooksLocalDataSource;
+import com.juhezi.bookshelf.data.remote.BooksRemoteDataSource;
 
 import javax.inject.Inject;
 
 public class ShelfActivity extends AppCompatActivity {
 
     private DrawerLayout mDrawerLayout;
-//    @Inject ShelfPresenter mPresenter;
+    private ShelfPresenter mPresenter;
+    private ShelfFragment mShelfFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,19 +55,22 @@ public class ShelfActivity extends AppCompatActivity {
     }
 
     private void initFragment() {
-        ShelfFragment shelfFragment = (ShelfFragment) getSupportFragmentManager()
+        mShelfFragment = (ShelfFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.rl_frag);
-        if (shelfFragment == null) {
-            shelfFragment = new ShelfFragment();
+        if (mShelfFragment == null) {
+            mShelfFragment = new ShelfFragment();
             getSupportFragmentManager()
                     .beginTransaction()
-                    .add(R.id.rl_frag,shelfFragment)
+                    .add(R.id.rl_frag,mShelfFragment)
                     .commit();
         }
     }
 
     private void initPresenter() {
-
+        BooksRepository booksRepository = BooksRepository.newInstance(
+                BooksLocalDataSource.newInstance(this),
+                BooksRemoteDataSource.newInstance(this));
+        mPresenter = new ShelfPresenter(mShelfFragment,booksRepository);
     }
 
     private void setupDrawerContent(NavigationView navigationView) {

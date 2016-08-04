@@ -1,6 +1,7 @@
 package com.juhezi.bookshelf;
 
 import com.facebook.stetho.Stetho;
+import com.uphyca.stetho_realm.RealmInspectorModulesProvider;
 
 /**
  * Created by qiaoyunrui on 16-8-3.
@@ -12,6 +13,11 @@ public class DebugApplication extends BookShelfApplication {
     @Override
     public void onCreate() {
         super.onCreate();
-        Stetho.initializeWithDefaults(this);
+        Stetho.initialize(
+                Stetho.newInitializerBuilder(this)
+                .enableDumpapp(Stetho.defaultDumperPluginsProvider(this))
+                .enableWebKitInspector(RealmInspectorModulesProvider.builder(this).build())
+                .build()
+        );
     }
 }

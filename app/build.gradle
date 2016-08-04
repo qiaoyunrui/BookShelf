@@ -39,6 +39,7 @@ dependencies {
     compile rootProject.ext.libRxAndroid
     compile rootProject.ext.libStetho
     compile rootProject.ext.libStethoOkhttp
+    compile rootProject.ext.libStethoRealm
     compile rootProject.ext.libGlide
     compile rootProject.ext.libRebound
 }

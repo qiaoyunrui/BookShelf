@@ -6,5 +6,5 @@ package com.juhezi.bookshelf.dataModule;
 public enum BookState {
     START,
     MEDIUM,
-    END
+    END;
 }

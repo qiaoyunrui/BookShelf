@@ -1,26 +1,36 @@
 package com.juhezi.bookshelf.dataModule;
 
+import java.lang.reflect.Type;
+import java.util.Random;
+import java.util.UUID;
+
+import io.realm.RealmObject;
+import io.realm.annotations.Ignore;
+import io.realm.annotations.Index;
+import io.realm.annotations.PrimaryKey;
+
 /**
  * Created by qiaoyunrui on 16-8-4.
  */
-public class BookSimInfo {
+public class BookSimInfo extends RealmObject{
 
     private static final String TAG = "BookSimInfo";
 
+    @PrimaryKey
+    private String id;
+    @Index
     private String isbn;
+    @Index
     private String title;
     private String author;
     private String imageUrl;
+    @Ignore
     private BookState state;    //阅读进度
+    private int iState;
     private String desc;
 
-    public BookSimInfo(String title, BookState state, String isbn, String imageUrl, String desc, String author) {
-        this.title = title;
-        this.state = state;
-        this.isbn = isbn;
-        this.imageUrl = imageUrl;
-        this.desc = desc;
-        this.author = author;
+    public BookSimInfo() {
+        id = UUID.randomUUID().toString();
     }
 
     public String getDesc() {
@@ -61,6 +71,23 @@ public class BookSimInfo {
 
     public void setState(BookState state) {
         this.state = state;
+        iState = state2int(state);
+    }
+
+    private int state2int(BookState state) {
+        int iState = 0;
+        switch(state) {
+            case START:
+                iState = 0;
+                break;
+            case MEDIUM:
+                iState = 1;
+                break;
+            case END:
+                iState = 2;
+                break;
+        }
+        return iState;
     }
 
     public String getTitle() {
