@@ -18,7 +18,10 @@
             <android.support.v7.widget.Toolbar
                 android:id="@+id/tb_shelf"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:minHeight="?attr/actionBarSize"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                app:theme="@style/Toolbar">
             </android.support.v7.widget.Toolbar>
         </android.support.design.widget.AppBarLayout>
 
@@ -31,7 +34,7 @@
 
     </LinearLayout>
 
-    <android.support.design.widget.NavigationView
+    <!--<android.support.design.widget.NavigationView
         android:id="@+id/nav_view"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
@@ -41,6 +44,6 @@
         app:headerLayout="@layout/nav_header"
         >
 
-    </android.support.design.widget.NavigationView>
+    </android.support.design.widget.NavigationView>-->
 
 </android.support.v4.widget.DrawerLayout>

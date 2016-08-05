@@ -1,6 +1,7 @@
 package com.juhezi.bookshelf.shelf;
 
 import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -50,6 +51,8 @@ public class ShelfFragment extends Fragment implements ShelfContract.View {
     private SwipeRefreshLayout mSrl_refresh;
     private BookAdapter mAdapter;
     private AlertDialog.Builder mBuilder;
+    private String id;
+    private int pos;
 
     private List<BookSimInfo> dataList = new ArrayList<>();
 
@@ -67,6 +70,17 @@ public class ShelfFragment extends Fragment implements ShelfContract.View {
     }
 
     private void initDialog() {
+        mBuilder = new AlertDialog.Builder(getContext())
+                .setTitle("是否删除?")
+                .setMessage("删除之后无法恢复")
+                .setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        mPresenter.deleteData(id);
+                        mAdapter.delete(pos);
+                    }
+                })
+                .setNegativeButton("取消",null);
     }
 
     private void initEvent() {
@@ -84,7 +98,6 @@ public class ShelfFragment extends Fragment implements ShelfContract.View {
         });
     }
 
-
     private void initRecycle() {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -98,9 +111,10 @@ public class ShelfFragment extends Fragment implements ShelfContract.View {
             }
 
             @Override
-            public void onItemDeleteListener(BookSimInfo bookSimInfo) {
-                Log.i(TAG, "onItemDeleteListener: delete");
-                mPresenter.deleteData(bookSimInfo.getId());
+            public void onItemDeleteListener(BookSimInfo bookSimInfo,int position) {
+                id = bookSimInfo.getId();
+                pos = position;
+                showDialog();
             }
 
             @Override
@@ -154,7 +168,7 @@ public class ShelfFragment extends Fragment implements ShelfContract.View {
 
     @Override
     public void showDialog() {
-
+        mBuilder.create().show();
     }
 
     @Override
@@ -194,7 +208,7 @@ public class ShelfFragment extends Fragment implements ShelfContract.View {
                         .setAction("查看", new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                mRvList.scrollToPosition(mAdapter.getItemCount() - 1);
+                                mRvList.scrollToPosition(0);
                             }
                         })
                         .show();
@@ -206,6 +220,16 @@ public class ShelfFragment extends Fragment implements ShelfContract.View {
                 Snackbar.make(getView(), "书籍已经存在", Snackbar.LENGTH_SHORT).show();
                 break;
         }
+    }
+
+    @Override
+    public void recyclerViewAdd(BookSimInfo bookSimInfo) {
+        mAdapter.add(bookSimInfo);
+    }
+
+    @Override
+    public void recyclerViewScrollTop() {
+        mRvList.scrollToPosition(0);
     }
 
     @Override

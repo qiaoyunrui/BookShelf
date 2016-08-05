@@ -67,7 +67,7 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BookViewHodler
                 holder.mIbDelete.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        mListener.onItemDeleteListener(dataList.get(position));
+                        mListener.onItemDeleteListener(dataList.get(position),position);
                     }
                 });
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -99,13 +99,24 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BookViewHodler
         this.mListener = listener;
     }
 
+    public void delete(int position) {
+        dataList.remove(position);
+        notifyItemRemoved(position);
+    }
+
+    public void add(BookSimInfo bookSimInfo) {
+        dataList.add(0,bookSimInfo);
+        notifyItemInserted(0);
+    }
+
+
     public class BookViewHodler extends RecyclerView.ViewHolder {
 
         public ImageView mImgCover;
         public TextView mTvTitle;
         public TextView mTvAuthor;
         public TextView mTvDesc;
-        public ImageButton mIbDelete;
+        public ImageView mIbDelete;
         public ImageView mIvState;
 
         public BookViewHodler(View itemView) {
@@ -114,7 +125,7 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BookViewHodler
             mTvTitle = (TextView) itemView.findViewById(R.id.tv_title);
             mTvAuthor = (TextView) itemView.findViewById(R.id.tv_author);
             mTvDesc = (TextView) itemView.findViewById(R.id.tv_desc);
-            mIbDelete = (ImageButton) itemView.findViewById(R.id.ib_delete);
+            mIbDelete = (ImageView) itemView.findViewById(R.id.iv_delete);
             mIvState = (ImageView) itemView.findViewById(R.id.img_state);
         }
 
@@ -124,7 +135,7 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BookViewHodler
     public interface BookItemListener {
         void onItemClick(BookSimInfo bookSimInfo);
 
-        void onItemDeleteListener(BookSimInfo bookSimInfo);
+        void onItemDeleteListener(BookSimInfo bookSimInfo,int position);
 
         void onItemChangeStateListener(BookSimInfo bookSimInfo);
     }

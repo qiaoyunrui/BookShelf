@@ -48,6 +48,10 @@ public interface ShelfContract {
         void post(Runnable r);
 
         void showSnackbar(int type);
+
+        void recyclerViewAdd(BookSimInfo bookSimInfo);
+
+        void recyclerViewScrollTop();
     }
 
 }

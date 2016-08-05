@@ -44,8 +44,8 @@ public class BooksRepository implements BooksDataSource {
     }
 
     @Override
-    public void saveBookInfo(BookSimInfo bookSimInfo, OperateCallback callback) {
-        mBooksLocalDataSource.saveBookInfo(bookSimInfo, callback);
+    public void saveBookInfo(final BookSimInfo bookSimInfo, final OperateCallback callback) {
+                mBooksLocalDataSource.saveBookInfo(bookSimInfo, callback);
     }
 
     @Override

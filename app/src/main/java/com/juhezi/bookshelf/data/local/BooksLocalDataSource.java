@@ -6,6 +6,7 @@ import android.util.Log;
 import com.juhezi.bookshelf.data.BooksDataSource;
 import com.juhezi.bookshelf.dataModule.BookSimInfo;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.realm.Realm;
@@ -57,12 +58,12 @@ public class BooksLocalDataSource implements BooksDataSource {
             query = mRealm.where(BookSimInfo.class);
         }
         RealmResults<BookSimInfo> result = query.findAll(); //可以优化为分页查询
-        List<BookSimInfo> list = result.subList(0, result.size());
+        List<BookSimInfo> list = new ArrayList<>(result.subList(0, result.size()));
         callback.onSimBooksLoaded(list);
     }
 
     @Override
-    public void saveBookInfo(BookSimInfo bookSimInfo, OperateCallback callback) {
+    public void saveBookInfo(BookSimInfo bookSimInfo,OperateCallback callback) {
         if (bookSimInfo != null) {
             mRealm.beginTransaction();
             mRealm.copyToRealmOrUpdate(bookSimInfo);
@@ -82,6 +83,5 @@ public class BooksLocalDataSource implements BooksDataSource {
         mRealm.beginTransaction();
         result.get(0).deleteFromRealm();
         mRealm.commitTransaction();
-        Log.i(TAG, "deleteBook: delete");
     }
 }

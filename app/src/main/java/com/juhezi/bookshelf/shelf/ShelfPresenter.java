@@ -57,7 +57,7 @@ public class ShelfPresenter implements ShelfContract.Presenter {
 
     @Override
     public void refresh() {
-        mShelfView.showDialog();
+        mShelfView.showProgressbar();
         mBooksRepository.refreshSimInfos(new BooksDataSource.LoadSimBooksCallback() {
             @Override
             public void onSimBooksLoaded(final List<BookSimInfo> dataList) {
@@ -93,7 +93,9 @@ public class ShelfPresenter implements ShelfContract.Presenter {
                 mShelfView.post(new Runnable() {
                     @Override
                     public void run() {
-                        //RecyclerView动画
+                        //Recycler动画
+                        mShelfView.recyclerViewAdd(bookSimInfo);
+                        mShelfView.recyclerViewScrollTop();
                         mShelfView.hideProgressbar();
                     }
                 });

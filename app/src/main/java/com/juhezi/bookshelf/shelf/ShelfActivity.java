@@ -30,7 +30,7 @@ public class ShelfActivity extends AppCompatActivity {
 
         initToolBar();
         
-        initNavDrawer();
+//        initNavDrawer();
 
         initFragment();
 
@@ -41,18 +41,19 @@ public class ShelfActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.tb_shelf);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
-        actionBar.setDisplayHomeAsUpEnabled(true);
+//        actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
+//        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setLogo(R.drawable.ic_temp1);
     }
 
-    private void initNavDrawer() {
+    /*private void initNavDrawer() {
         mDrawerLayout = (DrawerLayout) findViewById(R.id.dl_layout);
         mDrawerLayout.setStatusBarBackground(R.color.colorPrimaryDark);
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         if (navigationView != null) {
             setupDrawerContent(navigationView);
         }
-    }
+    }*/
 
     private void initFragment() {
         mShelfFragment = (ShelfFragment) getSupportFragmentManager()
@@ -76,7 +77,7 @@ public class ShelfActivity extends AppCompatActivity {
     private void setupDrawerContent(NavigationView navigationView) {
     }
 
-    @Override
+    /*@Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()) {
             case android.R.id.home:
@@ -84,5 +85,5 @@ public class ShelfActivity extends AppCompatActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
-    }
+    }*/
 }
