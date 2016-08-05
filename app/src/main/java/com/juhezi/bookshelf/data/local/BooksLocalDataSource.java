@@ -40,6 +40,11 @@ public class BooksLocalDataSource implements BooksDataSource{
 
     @Override
     public void getBookSimInfos(LoadSimBooksCallback callback) {
+        refreshSimInfos(callback);
+    }
+
+    @Override
+    public void refreshSimInfos(LoadSimBooksCallback callback) {
         if (query == null) {
             query = mRealm.where(BookSimInfo.class);
         }
@@ -49,15 +54,10 @@ public class BooksLocalDataSource implements BooksDataSource{
     }
 
     @Override
-    public void refreshSimInfos(LoadSimBooksCallback callback) {
-
-    }
-
-    @Override
-    public void saveBookInfo(BookSimInfo bookSimInfo, SaveSimBookCallback callback) {
+    public void saveBookInfo(BookSimInfo bookSimInfo, OperateCallback callback) {
         mRealm.beginTransaction();
         mRealm.copyToRealmOrUpdate(bookSimInfo);
         mRealm.commitTransaction();
-        callback.onSaved();
+        callback.complete();
     }
 }

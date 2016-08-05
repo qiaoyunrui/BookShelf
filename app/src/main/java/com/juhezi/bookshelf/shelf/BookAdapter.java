@@ -1,7 +1,6 @@
 package com.juhezi.bookshelf.shelf;
 
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,14 +11,9 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.juhezi.bookshelf.R;
 import com.juhezi.bookshelf.dataModule.BookSimInfo;
-import com.juhezi.bookshelf.dataModule.BookState;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.juhezi.bookshelf.dataModule.BookState.END;
-import static com.juhezi.bookshelf.dataModule.BookState.MEDIUM;
-import static com.juhezi.bookshelf.dataModule.BookState.START;
 
 /**
  * Created by qiaoyunrui on 16-8-4.
@@ -49,14 +43,14 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BookViewHodler
     @Override
     public void onBindViewHolder(BookViewHodler holder, int position) {
         if (dataList != null) {
-            switch (dataList.get(position).getState()) {
-                case START:
+            switch (dataList.get(position).getiState()) {
+                case BookSimInfo.START:
                     holder.mIvState.setImageResource(R.drawable.ic_state_undone);
                     break;
-                case MEDIUM:
+                case BookSimInfo.END:
                     holder.mIvState.setImageResource(R.drawable.ic_state_medium);
                     break;
-                case END:
+                case BookSimInfo.MEDIUM:
                     holder.mIvState.setImageResource(R.drawable.ic_state_done);
                     break;
             }

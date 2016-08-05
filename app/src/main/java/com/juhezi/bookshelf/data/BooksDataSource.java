@@ -22,16 +22,16 @@ public interface BooksDataSource {
 
         void onDataNotAvailable();
     }
-    interface SaveSimBookCallback {
-        void onSaved();
 
-        void onError();
+    interface OperateCallback {
+        void complete();
+
+        void error();
     }
 
     void getBookSimInfos(LoadSimBooksCallback callback);
 
     void refreshSimInfos(LoadSimBooksCallback callback);
 
-    void saveBookInfo(BookSimInfo bookSimInfo,SaveSimBookCallback callback);
-
+    void saveBookInfo(BookSimInfo bookSimInfo,OperateCallback callback);
 }

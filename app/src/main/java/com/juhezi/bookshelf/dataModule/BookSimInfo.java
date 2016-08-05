@@ -16,6 +16,10 @@ public class BookSimInfo extends RealmObject{
 
     private static final String TAG = "BookSimInfo";
 
+    public static final int START = 0;
+    public static final int MEDIUM = 1;
+    public static final int END = 2;
+
     @PrimaryKey
     private String id;
     @Index
@@ -24,8 +28,6 @@ public class BookSimInfo extends RealmObject{
     private String title;
     private String author;
     private String imageUrl;
-    @Ignore
-    private BookState state;    //阅读进度
     private int iState;
     private String desc;
 
@@ -65,29 +67,12 @@ public class BookSimInfo extends RealmObject{
         this.isbn = isbn;
     }
 
-    public BookState getState() {
-        return state;
-    }
-
-    public void setState(BookState state) {
-        this.state = state;
-        iState = state2int(state);
-    }
-
-    private int state2int(BookState state) {
-        int iState = 0;
-        switch(state) {
-            case START:
-                iState = 0;
-                break;
-            case MEDIUM:
-                iState = 1;
-                break;
-            case END:
-                iState = 2;
-                break;
-        }
+    public int getiState() {
         return iState;
+    }
+
+    public void setiState(int iState) {
+        this.iState = iState;
     }
 
     public String getTitle() {

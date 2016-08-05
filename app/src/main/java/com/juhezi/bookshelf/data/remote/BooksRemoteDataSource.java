@@ -38,7 +38,7 @@ public class BooksRemoteDataSource implements BooksDataSource {
     }
 
     @Override
-    public void saveBookInfo(BookSimInfo bookSimInfo, SaveSimBookCallback callback) {
+    public void saveBookInfo(BookSimInfo bookSimInfo, OperateCallback callback) {
 
     }
 

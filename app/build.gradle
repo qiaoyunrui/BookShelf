@@ -42,4 +42,5 @@ dependencies {
     compile rootProject.ext.libStethoRealm
     compile rootProject.ext.libGlide
     compile rootProject.ext.libRebound
+    compile rootProject.ext.libZxing
 }
