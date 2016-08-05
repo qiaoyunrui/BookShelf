@@ -22,6 +22,7 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BookViewHodler
 
     private static final String TAG = "BookAdapter";
     private List<BookSimInfo> dataList = new ArrayList<>();
+    private BookItemListener mListener;
 
     public BookAdapter(List<BookSimInfo> dataList) {
         this.dataList = dataList;
@@ -41,7 +42,7 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BookViewHodler
     }
 
     @Override
-    public void onBindViewHolder(BookViewHodler holder, int position) {
+    public void onBindViewHolder(BookViewHodler holder, final int position) {
         if (dataList != null) {
             switch (dataList.get(position).getiState()) {
                 case BookSimInfo.START:
@@ -62,6 +63,22 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BookViewHodler
                             .get(position)
                             .getImageUrl())
                     .into(holder.mImgCover);
+            if (mListener != null) {
+                holder.mIbDelete.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        mListener.onItemDeleteListener(dataList.get(position));
+                    }
+                });
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        mListener.onItemClick(dataList.get(position));
+                    }
+                });
+
+                //anthor listener
+            }
         }
     }
 
@@ -76,6 +93,10 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BookViewHodler
 
     public void setDataList(List<BookSimInfo> dataList) {
         this.dataList = dataList;
+    }
+
+    public void setItemListener(BookItemListener listener) {
+        this.mListener = listener;
     }
 
     public class BookViewHodler extends RecyclerView.ViewHolder {
@@ -97,6 +118,15 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BookViewHodler
             mIvState = (ImageView) itemView.findViewById(R.id.img_state);
         }
 
+    }
+
+
+    public interface BookItemListener {
+        void onItemClick(BookSimInfo bookSimInfo);
+
+        void onItemDeleteListener(BookSimInfo bookSimInfo);
+
+        void onItemChangeStateListener(BookSimInfo bookSimInfo);
     }
 
 }

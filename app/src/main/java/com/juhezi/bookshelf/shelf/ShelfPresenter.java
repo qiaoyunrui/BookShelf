@@ -24,7 +24,7 @@ import rx.Observable;
 /**
  * Created by qiaoyunrui on 16-8-3.
  */
-public class ShelfPresenter implements ShelfContract.Presenter{
+public class ShelfPresenter implements ShelfContract.Presenter {
 
     private static final String TAG = "ShelfPresenter";
     private final ShelfContract.View mShelfView;
@@ -119,7 +119,7 @@ public class ShelfPresenter implements ShelfContract.Presenter{
         call.enqueue(new Callback<BookInfo>() {
             @Override
             public void onResponse(Call<BookInfo> call, Response<BookInfo> response) {
-                if(response.code() == 200) {
+                if (response.code() == 200) {
                     bookSimInfo[0] = response.body().toBookSimInfo();
                     if (mBooksRepository.isRepeat(bookSimInfo[0].getIsbn())) {
                         mShelfView.showSnackbar(ShelfFragment.REPEAT);
@@ -141,5 +141,10 @@ public class ShelfPresenter implements ShelfContract.Presenter{
                 mShelfView.hideProgressbar();
             }
         });
+    }
+
+    @Override
+    public void deleteData(String id) {
+        mBooksRepository.deleteBook(id);
     }
 }

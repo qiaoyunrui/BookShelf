@@ -35,5 +35,7 @@ public interface BooksDataSource {
 
     void refreshSimInfos(LoadSimBooksCallback callback);
 
-    void saveBookInfo(BookSimInfo bookSimInfo,OperateCallback callback);
+    void saveBookInfo(BookSimInfo bookSimInfo, OperateCallback callback);
+
+    void deleteBook(String id);
 }

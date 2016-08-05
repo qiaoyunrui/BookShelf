@@ -43,7 +43,6 @@ public class BooksLocalDataSource implements BooksDataSource {
         RealmQuery<BookSimInfo> repeatQuery = mRealm.where(BookSimInfo.class);
         repeatQuery.equalTo("isbn", isbn);
         RealmResults<BookSimInfo> result = repeatQuery.findAll();
-        Log.i(TAG, "isRepeat: " + result.size());
         return result.size() > 0;
     }
 
@@ -73,5 +72,16 @@ public class BooksLocalDataSource implements BooksDataSource {
             callback.error();
         }
 
+    }
+
+    @Override
+    public void deleteBook(String id) {
+        RealmQuery<BookSimInfo> repeatQuery = mRealm.where(BookSimInfo.class);
+        repeatQuery.equalTo("id", id);
+        RealmResults<BookSimInfo> result = repeatQuery.findAll();
+        mRealm.beginTransaction();
+        result.get(0).deleteFromRealm();
+        mRealm.commitTransaction();
+        Log.i(TAG, "deleteBook: delete");
     }
 }

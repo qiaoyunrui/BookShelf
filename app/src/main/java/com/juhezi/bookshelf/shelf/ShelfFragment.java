@@ -12,6 +12,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -90,7 +91,25 @@ public class ShelfFragment extends Fragment implements ShelfContract.View {
         mRvList.setLayoutManager(layoutManager);
         mRvList.setHasFixedSize(true);
         mAdapter = new BookAdapter(dataList);
+        mAdapter.setItemListener(new BookAdapter.BookItemListener() {
+            @Override
+            public void onItemClick(BookSimInfo bookSimInfo) {
+                turn2ContentAct(bookSimInfo);
+            }
+
+            @Override
+            public void onItemDeleteListener(BookSimInfo bookSimInfo) {
+                Log.i(TAG, "onItemDeleteListener: delete");
+                mPresenter.deleteData(bookSimInfo.getId());
+            }
+
+            @Override
+            public void onItemChangeStateListener(BookSimInfo bookSimInfo) {
+
+            }
+        });
         mRvList.setAdapter(mAdapter);
+
     }
 
     @Override
@@ -129,7 +148,7 @@ public class ShelfFragment extends Fragment implements ShelfContract.View {
     }
 
     @Override
-    public void turn2ContentAct() {
+    public void turn2ContentAct(BookSimInfo bookSimInfo) {
 
     }
 
@@ -157,12 +176,14 @@ public class ShelfFragment extends Fragment implements ShelfContract.View {
 
     @Override
     public void showErrorToast() {
-        Toast.makeText(getContext(), "数据记载失败", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), "数据加载失败", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void post(Runnable r) {
-        getActivity().runOnUiThread(r);
+        if (getActivity() != null) {
+            getActivity().runOnUiThread(r);
+        }
     }
 
     @Override
@@ -177,7 +198,6 @@ public class ShelfFragment extends Fragment implements ShelfContract.View {
                             }
                         })
                         .show();
-
                 break;
             case FAIL:
                 Snackbar.make(getView(), "添加书籍失败", Snackbar.LENGTH_SHORT).show();

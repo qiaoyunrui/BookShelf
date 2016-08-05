@@ -47,4 +47,9 @@ public class BooksRemoteDataSource implements BooksDataSource {
 
     }
 
+    @Override
+    public void deleteBook(String id) {
+
+    }
+
 }

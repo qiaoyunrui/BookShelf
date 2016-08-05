@@ -48,6 +48,11 @@ public class BooksRepository implements BooksDataSource {
         mBooksLocalDataSource.saveBookInfo(bookSimInfo, callback);
     }
 
+    @Override
+    public void deleteBook(String id) {
+        mBooksLocalDataSource.deleteBook(id);
+    }
+
     /**
      * 根据isbn检查数据库中是否存在相同书籍
      *

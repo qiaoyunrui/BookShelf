@@ -12,7 +12,7 @@ import io.realm.annotations.PrimaryKey;
 /**
  * Created by qiaoyunrui on 16-8-4.
  */
-public class BookSimInfo extends RealmObject{
+public class BookSimInfo extends RealmObject {
 
     private static final String TAG = "BookSimInfo";
 
@@ -33,6 +33,10 @@ public class BookSimInfo extends RealmObject{
 
     public BookSimInfo() {
         id = UUID.randomUUID().toString();
+    }
+
+    public String getId() {
+        return id;
     }
 
     public String getDesc() {

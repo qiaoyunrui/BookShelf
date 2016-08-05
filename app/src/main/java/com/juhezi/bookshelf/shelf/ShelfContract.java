@@ -22,6 +22,8 @@ public interface ShelfContract {
 
         void handleData(String isbn);
 
+        void deleteData(String id);
+
     }
 
 
@@ -33,7 +35,7 @@ public interface ShelfContract {
 
         void turn2ZXingAct();
 
-        void turn2ContentAct();
+        void turn2ContentAct(BookSimInfo bookSimInfo);
 
         void showDialog();  //显示对话框
 
