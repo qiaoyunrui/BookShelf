@@ -2,6 +2,7 @@ package com.juhezi.bookshelf.shelf;
 
 import com.juhezi.bookshelf.BasePresenter;
 import com.juhezi.bookshelf.BaseView;
+import com.juhezi.bookshelf.data.BooksDataSource;
 import com.juhezi.bookshelf.dataModule.BookSimInfo;
 
 import java.util.List;
@@ -19,7 +20,7 @@ public interface ShelfContract {
 
         void saveData(BookSimInfo bookSimInfo);
 
-        void handleData(String string);
+        void handleData(String isbn);
 
     }
 
@@ -43,6 +44,8 @@ public interface ShelfContract {
         void showErrorToast();
 
         void post(Runnable r);
+
+        void showSnackbar(int type);
     }
 
 }

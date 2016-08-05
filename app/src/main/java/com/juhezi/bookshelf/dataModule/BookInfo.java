@@ -605,4 +605,23 @@ public class BookInfo {
             this.title = title;
         }
     }
+
+    public BookSimInfo toBookSimInfo() {
+        BookSimInfo bookSimInfo = new BookSimInfo();
+        bookSimInfo.setiState(0);
+        bookSimInfo.setTitle(title);
+        bookSimInfo.setAuthor(getAuthorX());
+        bookSimInfo.setIsbn(isbn13);
+        bookSimInfo.setDesc(summary);
+        bookSimInfo.setImageUrl(images.getLarge());
+        return bookSimInfo;
+    }
+
+    String getAuthorX() {
+        StringBuilder result = new StringBuilder();
+        for(int i = 0;i < author.size();i++) {
+            result.append(author.get(i) + " ");
+        }
+        return result.toString();
+    }
 }

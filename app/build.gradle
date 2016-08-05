@@ -43,4 +43,6 @@ dependencies {
     compile rootProject.ext.libGlide
     compile rootProject.ext.libRebound
     compile rootProject.ext.libZxing
+    compile rootProject.ext.libEasypermissions
+    compile rootProject.ext.libConverterGson
 }

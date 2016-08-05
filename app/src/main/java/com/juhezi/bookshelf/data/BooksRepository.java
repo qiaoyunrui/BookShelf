@@ -1,13 +1,14 @@
 package com.juhezi.bookshelf.data;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.juhezi.bookshelf.dataModule.BookSimInfo;
 
 /**
  * Created by qiaoyunrui on 16-8-4.
  */
-public class BooksRepository implements BooksDataSource{
+public class BooksRepository implements BooksDataSource {
 
     private static final String TAG = "BooksRepository";
 
@@ -26,14 +27,15 @@ public class BooksRepository implements BooksDataSource{
     }
 
     private BooksRepository(@NonNull BooksDataSource booksLocalDataSource,
-                           @NonNull BooksDataSource booksRemoteDataSource) {
+                            @NonNull BooksDataSource booksRemoteDataSource) {
         this.mBooksLocalDataSource = booksLocalDataSource;
         this.mBooksRemoteDataSource = booksRemoteDataSource;
     }
 
     @Override
-    public void getBookSimInfos(LoadSimBooksCallback callback) {
+    public void getBookSimInfos(final LoadSimBooksCallback callback) {
         mBooksLocalDataSource.getBookSimInfos(callback);
+
     }
 
     @Override
@@ -43,7 +45,18 @@ public class BooksRepository implements BooksDataSource{
 
     @Override
     public void saveBookInfo(BookSimInfo bookSimInfo, OperateCallback callback) {
-        mBooksLocalDataSource.saveBookInfo(bookSimInfo,callback);
+        mBooksLocalDataSource.saveBookInfo(bookSimInfo, callback);
+    }
+
+    /**
+     * 根据isbn检查数据库中是否存在相同书籍
+     *
+     * @param isbn
+     * @return
+     */
+    @Override
+    public boolean isRepeat(String isbn) {
+        return mBooksLocalDataSource.isRepeat(isbn);
     }
 
 }

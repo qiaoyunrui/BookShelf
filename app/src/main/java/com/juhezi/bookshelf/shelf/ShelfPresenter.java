@@ -5,12 +5,20 @@ import android.util.Log;
 
 import com.juhezi.bookshelf.data.BooksDataSource;
 import com.juhezi.bookshelf.data.BooksRepository;
+import com.juhezi.bookshelf.dataModule.BookInfo;
+import com.juhezi.bookshelf.dataModule.BookService;
 import com.juhezi.bookshelf.dataModule.BookSimInfo;
+import com.juhezi.bookshelf.other.Config;
 
 import java.util.List;
 
 import javax.inject.Inject;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 import rx.Observable;
 
 /**
@@ -19,19 +27,26 @@ import rx.Observable;
 public class ShelfPresenter implements ShelfContract.Presenter{
 
     private static final String TAG = "ShelfPresenter";
-
     private final ShelfContract.View mShelfView;
     private final BooksRepository mBooksRepository;
+    private Retrofit mRetrofit;
+    private BookService mBookService;
 
     @Inject
     public ShelfPresenter(ShelfContract.View shelfView, BooksRepository booksRepository) {
         this.mShelfView = shelfView;
         mShelfView.setPresenter(this);
         this.mBooksRepository = booksRepository;
+        mRetrofit = new Retrofit.Builder()
+                .baseUrl(Config.DOUBAN)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        mBookService = mRetrofit.create(BookService.class);
     }
 
     @Override
     public void start() {
+        mShelfView.requestPrimission();
         load();
     }
 
@@ -98,7 +113,33 @@ public class ShelfPresenter implements ShelfContract.Presenter{
     }
 
     @Override
-    public void handleData(String string) {
-        Log.i(TAG, "handleData: " + string);
+    public void handleData(String isbn) {
+        Call<BookInfo> call = mBookService.getBookInfo(isbn);
+        final BookSimInfo[] bookSimInfo = {null};
+        call.enqueue(new Callback<BookInfo>() {
+            @Override
+            public void onResponse(Call<BookInfo> call, Response<BookInfo> response) {
+                if(response.code() == 200) {
+                    bookSimInfo[0] = response.body().toBookSimInfo();
+                    if (mBooksRepository.isRepeat(bookSimInfo[0].getIsbn())) {
+                        mShelfView.showSnackbar(ShelfFragment.REPEAT);
+                        mShelfView.hideProgressbar();
+                    } else {
+                        saveData(bookSimInfo[0]);
+                        mShelfView.showSnackbar(ShelfFragment.SUCCESS);
+                        mShelfView.hideProgressbar();
+                    }
+                } else {
+                    mShelfView.showSnackbar(ShelfFragment.FAIL);
+                    mShelfView.hideProgressbar();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<BookInfo> call, Throwable t) {
+                mShelfView.showSnackbar(ShelfFragment.FAIL);
+                mShelfView.hideProgressbar();
+            }
+        });
     }
 }

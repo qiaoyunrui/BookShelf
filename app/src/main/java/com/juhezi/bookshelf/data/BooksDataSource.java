@@ -11,6 +11,8 @@ import java.util.List;
  */
 public interface BooksDataSource {
 
+    boolean isRepeat(String isbn);
+
     interface LoadSimBooksCallback {
         void onSimBooksLoaded(List<BookSimInfo> dataList);
 

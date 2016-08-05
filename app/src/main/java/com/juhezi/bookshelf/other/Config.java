@@ -7,4 +7,8 @@ public class Config {
 
     private static final String TAG = "Config";
 
+    public static final String CAMERA_PRIMISSION_rationale = "CAMERA";
+
+    public static final String DOUBAN = "https://api.douban.com/";
+
 }

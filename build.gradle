@@ -25,6 +25,7 @@ def glideVersion = "3.7.0"
 def reboundVersion = "0.3.8"
 def stethoRealmVersion = "0.9.0"
 def zxingVersion = "1.4"
+def easypermissionsVersion = "0.1.9"
 
 allprojects {
     repositories {
@@ -63,6 +64,8 @@ project.ext {
     libGlide = "com.github.bumptech.glide:glide:${glideVersion}"
     libRebound = "com.facebook.rebound:rebound:${reboundVersion}"
     libZxing = "cn.yipianfengye.android:zxing-library:${zxingVersion}"
+    libEasypermissions = "pub.devrel:easypermissions:${easypermissionsVersion}"
+    libConverterGson = "com.squareup.retrofit2:converter-gson:${retrofitVersion}"
 
     libJuWidget = "com.github.qiaoyunrui:JuWidgets:${juwidgetVersion}"
 }

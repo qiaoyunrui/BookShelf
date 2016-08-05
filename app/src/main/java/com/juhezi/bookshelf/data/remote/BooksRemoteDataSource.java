@@ -28,6 +28,11 @@ public class BooksRemoteDataSource implements BooksDataSource {
     }
 
     @Override
+    public boolean isRepeat(String isbn) {
+        return false;
+    }
+
+    @Override
     public void getBookSimInfos(LoadSimBooksCallback callback) {
 
     }

@@ -1,6 +1,7 @@
 package com.juhezi.bookshelf.data.local;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.juhezi.bookshelf.data.BooksDataSource;
 import com.juhezi.bookshelf.dataModule.BookSimInfo;
@@ -8,14 +9,13 @@ import com.juhezi.bookshelf.dataModule.BookSimInfo;
 import java.util.List;
 
 import io.realm.Realm;
-import io.realm.RealmConfiguration;
 import io.realm.RealmQuery;
 import io.realm.RealmResults;
 
 /**
  * Created by qiaoyunrui on 16-8-4.
  */
-public class BooksLocalDataSource implements BooksDataSource{
+public class BooksLocalDataSource implements BooksDataSource {
 
     private static final String TAG = "BooksLocalDataSource";
 
@@ -39,6 +39,15 @@ public class BooksLocalDataSource implements BooksDataSource{
     }
 
     @Override
+    public boolean isRepeat(String isbn) {
+        RealmQuery<BookSimInfo> repeatQuery = mRealm.where(BookSimInfo.class);
+        repeatQuery.equalTo("isbn", isbn);
+        RealmResults<BookSimInfo> result = repeatQuery.findAll();
+        Log.i(TAG, "isRepeat: " + result.size());
+        return result.size() > 0;
+    }
+
+    @Override
     public void getBookSimInfos(LoadSimBooksCallback callback) {
         refreshSimInfos(callback);
     }
@@ -49,15 +58,20 @@ public class BooksLocalDataSource implements BooksDataSource{
             query = mRealm.where(BookSimInfo.class);
         }
         RealmResults<BookSimInfo> result = query.findAll(); //可以优化为分页查询
-        List<BookSimInfo> list = result.subList(0,result.size() - 1);
+        List<BookSimInfo> list = result.subList(0, result.size());
         callback.onSimBooksLoaded(list);
     }
 
     @Override
     public void saveBookInfo(BookSimInfo bookSimInfo, OperateCallback callback) {
-        mRealm.beginTransaction();
-        mRealm.copyToRealmOrUpdate(bookSimInfo);
-        mRealm.commitTransaction();
-        callback.complete();
+        if (bookSimInfo != null) {
+            mRealm.beginTransaction();
+            mRealm.copyToRealmOrUpdate(bookSimInfo);
+            mRealm.commitTransaction();
+            callback.complete();
+        } else {
+            callback.error();
+        }
+
     }
 }
