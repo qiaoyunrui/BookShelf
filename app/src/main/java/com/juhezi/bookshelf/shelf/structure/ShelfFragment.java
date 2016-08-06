@@ -1,4 +1,4 @@
-package com.juhezi.bookshelf.shelf;
+package com.juhezi.bookshelf.shelf.structure;
 
 import android.Manifest;
 import android.content.DialogInterface;
@@ -13,17 +13,15 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.juhezi.bookshelf.R;
-import com.juhezi.bookshelf.data.BooksDataSource;
-import com.juhezi.bookshelf.dataModule.BookInfo;
 import com.juhezi.bookshelf.dataModule.BookSimInfo;
 import com.juhezi.bookshelf.other.Config;
+import com.juhezi.bookshelf.shelf.BookAdapter;
 import com.uuzuche.lib_zxing.activity.CaptureActivity;
 import com.uuzuche.lib_zxing.activity.CodeUtils;
 
@@ -63,6 +61,9 @@ public class ShelfFragment extends Fragment implements ShelfContract.View {
         mRvList = (RecyclerView) rootView.findViewById(R.id.rv_list);
         mFabShow = (FloatingActionButton) rootView.findViewById(R.id.fab_add);
         mSrl_refresh = (SwipeRefreshLayout) rootView.findViewById(R.id.srl_refresh);
+        mSrl_refresh.setColorSchemeColors(getResources().getColor(R.color.yellow),
+                getResources().getColor(R.color.blue),
+                getResources().getColor(R.color.red));
         initEvent();
         initRecycle();
         initDialog();

@@ -1,4 +1,4 @@
-package com.juhezi.bookshelf.shelf;
+package com.juhezi.bookshelf.shelf.structure;
 
 import com.juhezi.bookshelf.BasePresenter;
 import com.juhezi.bookshelf.BaseView;

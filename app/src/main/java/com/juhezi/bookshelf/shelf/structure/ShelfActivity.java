@@ -1,21 +1,16 @@
-package com.juhezi.bookshelf.shelf;
+package com.juhezi.bookshelf.shelf.structure;
 
 import android.support.design.widget.NavigationView;
-import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.MenuItem;
 
 import com.juhezi.bookshelf.R;
 import com.juhezi.bookshelf.data.BooksRepository;
 import com.juhezi.bookshelf.data.local.BooksLocalDataSource;
 import com.juhezi.bookshelf.data.remote.BooksRemoteDataSource;
-
-import javax.inject.Inject;
 
 public class ShelfActivity extends AppCompatActivity {
 

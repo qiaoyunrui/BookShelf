@@ -1,4 +1,4 @@
-package com.juhezi.bookshelf.shelf;
+package com.juhezi.bookshelf.shelf.structure;
 
 import dagger.Module;
 import dagger.Provides;

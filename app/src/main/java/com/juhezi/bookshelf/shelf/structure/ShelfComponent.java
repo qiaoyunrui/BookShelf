@@ -1,6 +1,4 @@
-package com.juhezi.bookshelf.shelf;
-
-import com.juhezi.bookshelf.ApplicationModule;
+package com.juhezi.bookshelf.shelf.structure;
 
 import dagger.Component;
 

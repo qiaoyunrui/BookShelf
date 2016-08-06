@@ -1,7 +1,4 @@
-package com.juhezi.bookshelf.shelf;
-
-import android.content.Context;
-import android.util.Log;
+package com.juhezi.bookshelf.shelf.structure;
 
 import com.juhezi.bookshelf.data.BooksDataSource;
 import com.juhezi.bookshelf.data.BooksRepository;
@@ -19,7 +16,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-import rx.Observable;
 
 /**
  * Created by qiaoyunrui on 16-8-3.

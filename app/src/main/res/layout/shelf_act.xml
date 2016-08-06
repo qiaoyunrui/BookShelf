@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:id="@+id/dl_layout"
     tools:openDrawer="start"
-    tools:context=".shelf.ShelfActivity"
+    tools:context=".shelf.structure.ShelfActivity"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
