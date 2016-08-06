@@ -30,9 +30,11 @@ public class BookSimInfo extends RealmObject {
     private String imageUrl;
     private int iState;
     private String desc;
+    private long time;
 
     public BookSimInfo() {
         id = UUID.randomUUID().toString();
+        time = System.currentTimeMillis();
     }
 
     public String getId() {

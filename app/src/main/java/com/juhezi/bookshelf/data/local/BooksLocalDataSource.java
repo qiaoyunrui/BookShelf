@@ -12,6 +12,7 @@ import java.util.List;
 import io.realm.Realm;
 import io.realm.RealmQuery;
 import io.realm.RealmResults;
+import io.realm.Sort;
 
 /**
  * Created by qiaoyunrui on 16-8-4.
@@ -57,7 +58,7 @@ public class BooksLocalDataSource implements BooksDataSource {
         if (query == null) {
             query = mRealm.where(BookSimInfo.class);
         }
-        RealmResults<BookSimInfo> result = query.findAll(); //可以优化为分页查询
+        RealmResults<BookSimInfo> result = query.findAllSorted("time", Sort.DESCENDING); //可以优化为分页查询
         List<BookSimInfo> list = new ArrayList<>(result.subList(0, result.size()));
         callback.onSimBooksLoaded(list);
     }
