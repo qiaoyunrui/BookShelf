@@ -1,11 +1,13 @@
 package com.juhezi.bookshelf.shelf;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -42,16 +44,16 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BookViewHodler
     }
 
     @Override
-    public void onBindViewHolder(BookViewHodler holder, final int position) {
+    public void onBindViewHolder(final BookViewHodler holder, final int position) {
         if (dataList != null) {
             switch (dataList.get(position).getiState()) {
                 case BookSimInfo.START:
                     holder.mIvState.setImageResource(R.drawable.ic_state_undone);
                     break;
-                case BookSimInfo.END:
+                case BookSimInfo.MEDIUM:
                     holder.mIvState.setImageResource(R.drawable.ic_state_medium);
                     break;
-                case BookSimInfo.MEDIUM:
+                case BookSimInfo.END:
                     holder.mIvState.setImageResource(R.drawable.ic_state_done);
                     break;
             }
@@ -67,7 +69,7 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BookViewHodler
                 holder.mIbDelete.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        mListener.onItemDeleteListener(dataList.get(position),position);
+                        mListener.onItemDeleteListener(dataList.get(position), position);
                     }
                 });
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -76,8 +78,28 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BookViewHodler
                         mListener.onItemClick(dataList.get(position));
                     }
                 });
-
                 //anthor listener
+                holder.mRl_undone.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        mListener.onItemChangeStateListener(dataList.get(position), BookSimInfo.START);
+                        holder.mIvState.setImageResource(R.drawable.ic_state_undone);
+                    }
+                });
+                holder.mRl_medium.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        mListener.onItemChangeStateListener(dataList.get(position), BookSimInfo.MEDIUM);
+                        holder.mIvState.setImageResource(R.drawable.ic_state_medium);
+                    }
+                });
+                holder.mRl_done.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        mListener.onItemChangeStateListener(dataList.get(position), BookSimInfo.END);
+                        holder.mIvState.setImageResource(R.drawable.ic_state_done);
+                    }
+                });
             }
         }
     }
@@ -105,7 +127,7 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BookViewHodler
     }
 
     public void add(BookSimInfo bookSimInfo) {
-        dataList.add(0,bookSimInfo);
+        dataList.add(0, bookSimInfo);
         notifyItemInserted(0);
     }
 
@@ -118,6 +140,9 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BookViewHodler
         public TextView mTvDesc;
         public ImageView mIbDelete;
         public ImageView mIvState;
+        public RelativeLayout mRl_done;
+        public RelativeLayout mRl_medium;
+        public RelativeLayout mRl_undone;
 
         public BookViewHodler(View itemView) {
             super(itemView);
@@ -127,6 +152,9 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BookViewHodler
             mTvDesc = (TextView) itemView.findViewById(R.id.tv_desc);
             mIbDelete = (ImageView) itemView.findViewById(R.id.iv_delete);
             mIvState = (ImageView) itemView.findViewById(R.id.img_state);
+            mRl_undone = (RelativeLayout) itemView.findViewById(R.id.rl_undone);
+            mRl_medium = (RelativeLayout) itemView.findViewById(R.id.rl_medium);
+            mRl_done = (RelativeLayout) itemView.findViewById(R.id.rl_done);
         }
 
     }
@@ -135,9 +163,9 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BookViewHodler
     public interface BookItemListener {
         void onItemClick(BookSimInfo bookSimInfo);
 
-        void onItemDeleteListener(BookSimInfo bookSimInfo,int position);
+        void onItemDeleteListener(BookSimInfo bookSimInfo, int position);
 
-        void onItemChangeStateListener(BookSimInfo bookSimInfo);
+        void onItemChangeStateListener(BookSimInfo bookSimInfo, int state);
     }
 
 }

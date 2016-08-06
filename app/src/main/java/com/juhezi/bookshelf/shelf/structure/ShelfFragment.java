@@ -81,7 +81,7 @@ public class ShelfFragment extends Fragment implements ShelfContract.View {
                         mAdapter.delete(pos);
                     }
                 })
-                .setNegativeButton("取消",null);
+                .setNegativeButton("取消", null);
     }
 
     private void initEvent() {
@@ -112,19 +112,20 @@ public class ShelfFragment extends Fragment implements ShelfContract.View {
             }
 
             @Override
-            public void onItemDeleteListener(BookSimInfo bookSimInfo,int position) {
+            public void onItemDeleteListener(BookSimInfo bookSimInfo, int position) {
                 id = bookSimInfo.getId();
                 pos = position;
                 showDialog();
             }
 
             @Override
-            public void onItemChangeStateListener(BookSimInfo bookSimInfo) {
-
+            public void onItemChangeStateListener(BookSimInfo bookSimInfo, int state) {
+                mPresenter.changeState(bookSimInfo.getId(), state);
             }
+
+
         });
         mRvList.setAdapter(mAdapter);
-
     }
 
     @Override

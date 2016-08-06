@@ -45,12 +45,17 @@ public class BooksRepository implements BooksDataSource {
 
     @Override
     public void saveBookInfo(final BookSimInfo bookSimInfo, final OperateCallback callback) {
-                mBooksLocalDataSource.saveBookInfo(bookSimInfo, callback);
+        mBooksLocalDataSource.saveBookInfo(bookSimInfo, callback);
     }
 
     @Override
     public void deleteBook(String id) {
         mBooksLocalDataSource.deleteBook(id);
+    }
+
+    @Override
+    public void changeState(String id, int state) {
+        mBooksLocalDataSource.changeState(id, state);
     }
 
     /**

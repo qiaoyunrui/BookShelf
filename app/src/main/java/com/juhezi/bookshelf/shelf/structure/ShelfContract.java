@@ -24,6 +24,8 @@ public interface ShelfContract {
 
         void deleteData(String id);
 
+        void changeState(String id,int state);
+
     }
 
 

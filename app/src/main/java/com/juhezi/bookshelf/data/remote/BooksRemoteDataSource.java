@@ -52,4 +52,9 @@ public class BooksRemoteDataSource implements BooksDataSource {
 
     }
 
+    @Override
+    public void changeState(String id, int state) {
+
+    }
+
 }

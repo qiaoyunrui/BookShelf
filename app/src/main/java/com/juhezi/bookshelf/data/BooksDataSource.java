@@ -38,4 +38,6 @@ public interface BooksDataSource {
     void saveBookInfo(BookSimInfo bookSimInfo, OperateCallback callback);
 
     void deleteBook(String id);
+
+    void changeState(String id, int state);
 }

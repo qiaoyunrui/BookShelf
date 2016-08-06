@@ -63,7 +63,7 @@ public class BooksLocalDataSource implements BooksDataSource {
     }
 
     @Override
-    public void saveBookInfo(BookSimInfo bookSimInfo,OperateCallback callback) {
+    public void saveBookInfo(BookSimInfo bookSimInfo, OperateCallback callback) {
         if (bookSimInfo != null) {
             mRealm.beginTransaction();
             mRealm.copyToRealmOrUpdate(bookSimInfo);
@@ -82,6 +82,16 @@ public class BooksLocalDataSource implements BooksDataSource {
         RealmResults<BookSimInfo> result = repeatQuery.findAll();
         mRealm.beginTransaction();
         result.get(0).deleteFromRealm();
+        mRealm.commitTransaction();
+    }
+
+    @Override
+    public void changeState(String id, int state) {
+        RealmQuery<BookSimInfo> repeatQuery = mRealm.where(BookSimInfo.class);
+        repeatQuery.equalTo("id", id);
+        RealmResults<BookSimInfo> result = repeatQuery.findAll();
+        mRealm.beginTransaction();
+        result.get(0).setiState(state);
         mRealm.commitTransaction();
     }
 }

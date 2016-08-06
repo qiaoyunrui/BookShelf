@@ -145,4 +145,9 @@ public class ShelfPresenter implements ShelfContract.Presenter {
     public void deleteData(String id) {
         mBooksRepository.deleteBook(id);
     }
+
+    @Override
+    public void changeState(String id, int state) {
+        mBooksRepository.changeState(id, state);
+    }
 }

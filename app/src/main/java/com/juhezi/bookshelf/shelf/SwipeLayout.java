@@ -3,16 +3,16 @@ package com.juhezi.bookshelf.shelf;
 import android.content.Context;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.ViewDragHelper;
-import android.support.v7.widget.CardView;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.LinearLayout;
 
 /**
  * Created by qiaoyunrui on 16-8-6.
  */
-public class SwipeLayout extends CardView {
+public class SwipeLayout extends LinearLayout {
 
     private static final String TAG = "SwipeLayout";
 
@@ -22,6 +22,8 @@ public class SwipeLayout extends CardView {
     private int dragDistance;
     private final double AUTO_OPEN_SPEED_LIMIT = 800.0;
     private int draggedX;
+    private int lastX;
+    private int lastY;
 
     public SwipeLayout(Context context) {
         this(context, null);
@@ -98,6 +100,7 @@ public class SwipeLayout extends CardView {
             viewDragHelper.smoothSlideViewTo(contentView, settleDestX, 0);
             ViewCompat.postInvalidateOnAnimation(SwipeLayout.this);
         }
+
     }
 
     @Override
@@ -120,9 +123,25 @@ public class SwipeLayout extends CardView {
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
-        Boolean b = super.dispatchTouchEvent(ev);
-        Log.i(TAG, "dispatchTouchEvent: return " + b);
-        return b;
+        int x = (int) ev.getX();
+        int y = (int) ev.getY();
+
+        switch (ev.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                getParent().getParent().requestDisallowInterceptTouchEvent(true);
+                break;
+            case MotionEvent.ACTION_MOVE:
+                int dX = x - lastX;
+                int dY = y - lastY;
+                if (Math.abs(dX) < Math.abs(dY)) {
+                    getParent().getParent().requestDisallowInterceptTouchEvent(false);
+                }
+                break;
+        }
+        lastX = x;
+        lastY = y;
+
+        return super.dispatchTouchEvent(ev);
     }
 
     @Override
@@ -130,7 +149,6 @@ public class SwipeLayout extends CardView {
         viewDragHelper.processTouchEvent(event);
         return true;
     }
-
 
     @Override
     public void computeScroll() {
