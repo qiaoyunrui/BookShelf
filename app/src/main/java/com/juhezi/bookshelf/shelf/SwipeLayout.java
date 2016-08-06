@@ -3,16 +3,16 @@ package com.juhezi.bookshelf.shelf;
 import android.content.Context;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.ViewDragHelper;
+import android.support.v7.widget.CardView;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.LinearLayout;
 
 /**
  * Created by qiaoyunrui on 16-8-6.
  */
-public class SwipeLayout extends LinearLayout{
+public class SwipeLayout extends CardView {
 
     private static final String TAG = "SwipeLayout";
 
@@ -24,16 +24,16 @@ public class SwipeLayout extends LinearLayout{
     private int draggedX;
 
     public SwipeLayout(Context context) {
-        this(context,null);
+        this(context, null);
     }
 
     public SwipeLayout(Context context, AttributeSet attrs) {
-        this(context, attrs,-1);
+        this(context, attrs, -1);
     }
 
     public SwipeLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        viewDragHelper = ViewDragHelper.create(this,new DragHelperCallback());
+        viewDragHelper = ViewDragHelper.create(this, new DragHelperCallback());
     }
 
     private class DragHelperCallback extends ViewDragHelper.Callback {
@@ -46,12 +46,12 @@ public class SwipeLayout extends LinearLayout{
         @Override
         public void onViewPositionChanged(View changedView, int left, int top, int dx, int dy) {
             draggedX = left;
-            if(changedView == contentView) {
+            if (changedView == contentView) {
                 actionView.offsetLeftAndRight(dx);
             } else {
                 contentView.offsetLeftAndRight(dx);
             }
-            if(actionView.getVisibility() == View.GONE) {
+            if (actionView.getVisibility() == View.GONE) {
                 actionView.setVisibility(View.VISIBLE);
             }
             invalidate();
@@ -59,10 +59,10 @@ public class SwipeLayout extends LinearLayout{
 
         @Override
         public int clampViewPositionHorizontal(View child, int left, int dx) {
-            if(child == contentView) {
+            if (child == contentView) {
                 final int leftBound = getPaddingLeft();
                 final int minLeftBound = -leftBound - dragDistance;
-                final int newLeft = Math.min(Math.max(minLeftBound,left),0);
+                final int newLeft = Math.min(Math.max(minLeftBound, left), 0);
                 return newLeft;
             } else {
                 final int minLeftBound = getPaddingLeft()
@@ -71,7 +71,7 @@ public class SwipeLayout extends LinearLayout{
                 final int maxLeftBound = getPaddingLeft()
                         + contentView.getMeasuredWidth()
                         + getPaddingRight();
-                final int newLeft = Math.min(Math.max(left,minLeftBound),maxLeftBound);
+                final int newLeft = Math.min(Math.max(left, minLeftBound), maxLeftBound);
                 return newLeft;
             }
         }
@@ -85,7 +85,7 @@ public class SwipeLayout extends LinearLayout{
         public void onViewReleased(View releasedChild, float xvel, float yvel) {
             super.onViewReleased(releasedChild, xvel, yvel);
             boolean settleToOpean = false;
-            if(xvel > AUTO_OPEN_SPEED_LIMIT) {
+            if (xvel > AUTO_OPEN_SPEED_LIMIT) {
                 settleToOpean = false;
             } else if (xvel < -AUTO_OPEN_SPEED_LIMIT) {
                 settleToOpean = true;
@@ -95,7 +95,7 @@ public class SwipeLayout extends LinearLayout{
                 settleToOpean = false;
             }
             final int settleDestX = settleToOpean ? -dragDistance : 0;
-            viewDragHelper.smoothSlideViewTo(contentView,settleDestX,0);
+            viewDragHelper.smoothSlideViewTo(contentView, settleDestX, 0);
             ViewCompat.postInvalidateOnAnimation(SwipeLayout.this);
         }
     }
@@ -114,11 +114,15 @@ public class SwipeLayout extends LinearLayout{
     }
 
     @Override
-    public boolean onInterceptHoverEvent(MotionEvent event) {
-        if(viewDragHelper.shouldInterceptTouchEvent(event)) {
-            return true;
-        }
-        return super.onInterceptHoverEvent(event);
+    public boolean onInterceptTouchEvent(MotionEvent ev) {
+        return viewDragHelper.shouldInterceptTouchEvent(ev);
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        Boolean b = super.dispatchTouchEvent(ev);
+        Log.i(TAG, "dispatchTouchEvent: return " + b);
+        return b;
     }
 
     @Override
@@ -127,10 +131,11 @@ public class SwipeLayout extends LinearLayout{
         return true;
     }
 
+
     @Override
     public void computeScroll() {
         super.computeScroll();
-        if(viewDragHelper.continueSettling(true)) {
+        if (viewDragHelper.continueSettling(true)) {
             ViewCompat.postInvalidateOnAnimation(this);
         }
     }
