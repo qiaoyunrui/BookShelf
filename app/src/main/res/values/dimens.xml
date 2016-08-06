@@ -7,4 +7,6 @@
     <dimen name="title_size">30sp</dimen>
     <dimen name="state_size">40dp</dimen>
     <dimen name="desc_margin_top">2dp</dimen>
+    <dimen name="card_view_margin">5dp</dimen>
+    <dimen name="card_view_margin2">10dp</dimen>
 </resources>

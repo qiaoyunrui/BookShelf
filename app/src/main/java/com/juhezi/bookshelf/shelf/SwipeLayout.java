@@ -147,6 +147,16 @@ public class SwipeLayout extends LinearLayout {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         viewDragHelper.processTouchEvent(event);
+//        Log.i(TAG, "onTouchEvent: ");
+//        Boolean tag = true;
+//        switch (event.getAction()) {
+//            case MotionEvent.ACTION_DOWN:
+//                tag = true;
+//                break;
+//            case MotionEvent.ACTION_MOVE:
+//                tag = false;
+//                break;
+//        }
         return true;
     }
 

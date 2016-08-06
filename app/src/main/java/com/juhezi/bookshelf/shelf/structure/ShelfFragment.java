@@ -13,6 +13,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -108,6 +109,7 @@ public class ShelfFragment extends Fragment implements ShelfContract.View {
         mAdapter.setItemListener(new BookAdapter.BookItemListener() {
             @Override
             public void onItemClick(BookSimInfo bookSimInfo) {
+                Log.i(TAG, "onItemClick: click");
                 turn2ContentAct(bookSimInfo);
             }
 
