@@ -1,5 +1,11 @@
 package com.juhezi.bookshelf.shelf.structure;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.view.MenuItem;
+import android.view.View;
+
+import com.juhezi.bookshelf.R;
 import com.juhezi.bookshelf.data.BooksDataSource;
 import com.juhezi.bookshelf.data.BooksRepository;
 import com.juhezi.bookshelf.dataModule.BookInfo;
@@ -27,9 +33,12 @@ public class ShelfPresenter implements ShelfContract.Presenter {
     private final BooksRepository mBooksRepository;
     private Retrofit mRetrofit;
     private BookService mBookService;
+    private SharedPreferences mSharedPreferences;
+    private Context mContext;
 
     @Inject
-    public ShelfPresenter(ShelfContract.View shelfView, BooksRepository booksRepository) {
+    public ShelfPresenter(ShelfContract.View shelfView, BooksRepository booksRepository, Context context) {
+        this.mContext = context;
         this.mShelfView = shelfView;
         mShelfView.setPresenter(this);
         this.mBooksRepository = booksRepository;
@@ -149,5 +158,30 @@ public class ShelfPresenter implements ShelfContract.Presenter {
     @Override
     public void changeState(String id, int state) {
         mBooksRepository.changeState(id, state);
+    }
+
+    @Override
+    public void changeLayout(MenuItem view) {
+        if (mSharedPreferences == null) {
+            mSharedPreferences = mContext.getSharedPreferences(Config.SHARE_PREFERENCE, Context.MODE_PRIVATE);
+        }
+        boolean isLinear = mSharedPreferences.getBoolean(Config.LAYOUT_STATE, true);
+        SharedPreferences.Editor editor = mSharedPreferences.edit();
+        if (isLinear) {
+            mShelfView.change2Stagger(view);
+            editor.putBoolean(Config.LAYOUT_STATE, false);
+        } else {
+            mShelfView.change2Linear(view);
+            editor.putBoolean(Config.LAYOUT_STATE, true);
+        }
+        editor.commit();
+    }
+
+    @Override
+    public boolean getLayoutState() {
+        if (mSharedPreferences == null) {
+            mSharedPreferences = mContext.getSharedPreferences(Config.SHARE_PREFERENCE, Context.MODE_PRIVATE);
+        }
+        return mSharedPreferences.getBoolean(Config.LAYOUT_STATE, true);
     }
 }

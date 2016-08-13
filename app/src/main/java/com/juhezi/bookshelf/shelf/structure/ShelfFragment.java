@@ -13,8 +13,12 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -52,6 +56,8 @@ public class ShelfFragment extends Fragment implements ShelfContract.View {
     private AlertDialog.Builder mBuilder;
     private String id;
     private int pos;
+    private StaggeredGridLayoutManager staggeredGridLayoutManager;
+    private LinearLayoutManager linearLayoutManager;
 
     private List<BookSimInfo> dataList = new ArrayList<>();
 
@@ -101,10 +107,16 @@ public class ShelfFragment extends Fragment implements ShelfContract.View {
     }
 
     private void initRecycle() {
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        mRvList.setLayoutManager(layoutManager);
-        mRvList.setHasFixedSize(true);
+        linearLayoutManager = new LinearLayoutManager(getContext());
+        int spanCount = 2;  //列数为2列
+        staggeredGridLayoutManager =
+                new StaggeredGridLayoutManager(spanCount, StaggeredGridLayoutManager.VERTICAL);
+        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        if (mPresenter.getLayoutState()) {
+            mRvList.setLayoutManager(linearLayoutManager);
+        } else {
+            mRvList.setLayoutManager(staggeredGridLayoutManager);
+        }
         mAdapter = new BookAdapter(dataList);
         mAdapter.setItemListener(new BookAdapter.BookItemListener() {
             @Override
@@ -234,6 +246,18 @@ public class ShelfFragment extends Fragment implements ShelfContract.View {
     @Override
     public void recyclerViewScrollTop() {
         mRvList.scrollToPosition(0);
+    }
+
+    @Override
+    public void change2Linear(MenuItem view) {
+        view.setIcon(R.drawable.ic_linear);
+        mRvList.setLayoutManager(linearLayoutManager);
+    }
+
+    @Override
+    public void change2Stagger(MenuItem view) {
+        view.setIcon(R.drawable.ic_stagger);
+        mRvList.setLayoutManager(staggeredGridLayoutManager);
     }
 
     @Override

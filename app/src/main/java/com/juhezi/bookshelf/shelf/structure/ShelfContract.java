@@ -1,5 +1,8 @@
 package com.juhezi.bookshelf.shelf.structure;
 
+import android.view.MenuItem;
+import android.view.View;
+
 import com.juhezi.bookshelf.BasePresenter;
 import com.juhezi.bookshelf.BaseView;
 import com.juhezi.bookshelf.data.BooksDataSource;
@@ -24,7 +27,11 @@ public interface ShelfContract {
 
         void deleteData(String id);
 
-        void changeState(String id,int state);
+        void changeState(String id, int state);
+
+        void changeLayout(MenuItem view);
+
+        boolean getLayoutState();
 
     }
 
@@ -54,6 +61,10 @@ public interface ShelfContract {
         void recyclerViewAdd(BookSimInfo bookSimInfo);
 
         void recyclerViewScrollTop();
+
+        void change2Linear(MenuItem view);   //切换为线性布局
+
+        void change2Stagger(MenuItem view);  //切换为瀑布流布局
     }
 
 }

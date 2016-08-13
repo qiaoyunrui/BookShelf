@@ -11,4 +11,6 @@ public class Config {
 
     public static final String DOUBAN = "https://api.douban.com/";
 
+    public static String SHARE_PREFERENCE = "SHARE_PREFERENCE";
+    public static String LAYOUT_STATE = "LAYOUT_STATE";
 }

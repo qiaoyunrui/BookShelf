@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">书架</string>
     <string name="string_temp">Temp</string>
+    <string name="exchange_layout">切换布局</string>
 </resources>

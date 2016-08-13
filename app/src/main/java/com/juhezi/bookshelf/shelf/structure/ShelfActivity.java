@@ -6,6 +6,9 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import com.juhezi.bookshelf.R;
 import com.juhezi.bookshelf.data.BooksRepository;
@@ -18,13 +21,15 @@ public class ShelfActivity extends AppCompatActivity {
     private ShelfPresenter mPresenter;
     private ShelfFragment mShelfFragment;
 
+    private static final String TAG = "ShelfActivity";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.shelf_act);
 
         initToolBar();
-        
+
 //        initNavDrawer();
 
         initFragment();
@@ -57,7 +62,7 @@ public class ShelfActivity extends AppCompatActivity {
             mShelfFragment = new ShelfFragment();
             getSupportFragmentManager()
                     .beginTransaction()
-                    .add(R.id.rl_frag,mShelfFragment)
+                    .add(R.id.rl_frag, mShelfFragment)
                     .commit();
         }
     }
@@ -66,7 +71,7 @@ public class ShelfActivity extends AppCompatActivity {
         BooksRepository booksRepository = BooksRepository.newInstance(
                 BooksLocalDataSource.newInstance(this),
                 BooksRemoteDataSource.newInstance(this));
-        mPresenter = new ShelfPresenter(mShelfFragment,booksRepository);
+        mPresenter = new ShelfPresenter(mShelfFragment, booksRepository, this);
     }
 
     private void setupDrawerContent(NavigationView navigationView) {
@@ -81,4 +86,24 @@ public class ShelfActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }*/
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.shelf_toolbar_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        switch (id) {
+            case R.id.item_exchange_layout:
+                mPresenter.changeLayout(item);
+                break;
+            default:
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 }
