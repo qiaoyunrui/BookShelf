@@ -66,6 +66,8 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BookViewHodler
                     .load(dataList
                             .get(position)
                             .getImageUrl())
+                    .error(R.drawable.book_temp_icon)
+                    .crossFade()
                     .into(holder.mImgCover);
             if (mListener != null) {
                 holder.mIbDelete.setOnClickListener(new View.OnClickListener() {
