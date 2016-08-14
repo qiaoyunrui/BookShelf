@@ -37,12 +37,12 @@ allprojects {
 
 project.ext {
     applicationId = "com.juhezi.salaryquery"
-    buildToolsVersion = "24.0.0"
+    buildToolsVersion = "24.0.1"
     compileSdkVersion = 24
     minSdkVersion = 15
     targetSdkVersion = 24
-    versionCode = 1
-    versionName = "1.0"
+    versionCode = 2
+    versionName = "1.1"
     minifyEnabled = false
 
     libSupportAppcomponent = "com.android.support:appcompat-v7:${supportVersion}"
