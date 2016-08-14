@@ -65,6 +65,10 @@ public interface ShelfContract {
         void change2Linear(MenuItem view);   //切换为线性布局
 
         void change2Stagger(MenuItem view);  //切换为瀑布流布局
+
+        void showEmptyView();
+
+        void hideEmptyView();
     }
 
 }

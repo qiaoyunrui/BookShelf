@@ -51,7 +51,7 @@ public class ShelfPresenter implements ShelfContract.Presenter {
 
     @Override
     public void start() {
-        mShelfView.requestPrimission();
+        mShelfView.requestPrimission(); //请求权限
         load();
     }
 

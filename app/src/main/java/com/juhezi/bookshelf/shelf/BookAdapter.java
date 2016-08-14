@@ -1,5 +1,6 @@
 package com.juhezi.bookshelf.shelf;
 
+import android.support.v4.widget.ViewDragHelper;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -122,16 +123,21 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BookViewHodler
         this.mListener = listener;
     }
 
-    public void delete(int position) {
+    public void delete(int position, Callback callback) {
         dataList.remove(position);
         notifyItemRemoved(position);
+        if (dataList.size() == 0) { //列表里已经没有书籍
+            callback.onCompleteTask();
+        }
     }
 
-    public void add(BookSimInfo bookSimInfo) {
+    public void add(BookSimInfo bookSimInfo, Callback callback) {
         dataList.add(0, bookSimInfo);
+        if (dataList.size() == 1) {
+            callback.onCompleteTask();
+        }
         notifyItemInserted(0);
     }
-
 
     public class BookViewHodler extends RecyclerView.ViewHolder {
 
@@ -167,6 +173,10 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BookViewHodler
         void onItemDeleteListener(BookSimInfo bookSimInfo, int position);
 
         void onItemChangeStateListener(BookSimInfo bookSimInfo, int state);
+    }
+
+    public interface Callback {
+        void onCompleteTask();
     }
 
 }

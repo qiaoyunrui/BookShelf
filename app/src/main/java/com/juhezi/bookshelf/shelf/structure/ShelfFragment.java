@@ -21,6 +21,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.juhezi.bookshelf.R;
@@ -52,6 +53,7 @@ public class ShelfFragment extends Fragment implements ShelfContract.View {
     private RecyclerView mRvList;
     private FloatingActionButton mFabShow;
     private SwipeRefreshLayout mSrl_refresh;
+    private RelativeLayout mEmptyView;
     private BookAdapter mAdapter;
     private AlertDialog.Builder mBuilder;
     private String id;
@@ -63,7 +65,8 @@ public class ShelfFragment extends Fragment implements ShelfContract.View {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.shelf_frag, container, false);
         mRvList = (RecyclerView) rootView.findViewById(R.id.rv_list);
         mFabShow = (FloatingActionButton) rootView.findViewById(R.id.fab_add);
@@ -71,6 +74,7 @@ public class ShelfFragment extends Fragment implements ShelfContract.View {
         mSrl_refresh.setColorSchemeColors(getResources().getColor(R.color.yellow),
                 getResources().getColor(R.color.blue),
                 getResources().getColor(R.color.red));
+        mEmptyView = (RelativeLayout) rootView.findViewById(R.id.rl_empty);
         initEvent();
         initRecycle();
         initDialog();
@@ -85,7 +89,12 @@ public class ShelfFragment extends Fragment implements ShelfContract.View {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         mPresenter.deleteData(id);
-                        mAdapter.delete(pos);
+                        mAdapter.delete(pos, new BookAdapter.Callback() {
+                            @Override
+                            public void onCompleteTask() {
+                                showEmptyView();
+                            }
+                        });
                     }
                 })
                 .setNegativeButton("取消", null);
@@ -191,6 +200,11 @@ public class ShelfFragment extends Fragment implements ShelfContract.View {
     public void updateRecycler(List<BookSimInfo> list) {
         mAdapter.setDataList(list);
         mAdapter.notifyDataSetChanged();
+        if (mAdapter.getItemCount() == 0) {
+            showEmptyView();
+        } else {
+            hideEmptyView();
+        }
     }
 
     @Override
@@ -240,7 +254,12 @@ public class ShelfFragment extends Fragment implements ShelfContract.View {
 
     @Override
     public void recyclerViewAdd(BookSimInfo bookSimInfo) {
-        mAdapter.add(bookSimInfo);
+        mAdapter.add(bookSimInfo, new BookAdapter.Callback() {
+            @Override
+            public void onCompleteTask() {
+                hideEmptyView();
+            }
+        });
     }
 
     @Override
@@ -258,6 +277,16 @@ public class ShelfFragment extends Fragment implements ShelfContract.View {
     public void change2Stagger(MenuItem view) {
         view.setIcon(R.drawable.ic_stagger);
         mRvList.setLayoutManager(staggeredGridLayoutManager);
+    }
+
+    @Override
+    public void showEmptyView() {
+        mEmptyView.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideEmptyView() {
+        mEmptyView.setVisibility(View.INVISIBLE);
     }
 
     @Override
