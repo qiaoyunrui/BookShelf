@@ -86,6 +86,7 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BookViewHodler
                     public void onClick(View view) {
                         mListener.onItemChangeStateListener(dataList.get(position), BookSimInfo.START);
                         holder.mIvState.setImageResource(R.drawable.ic_state_undone);
+                        holder.mSwipeLayout.hideActionView();
                     }
                 });
                 holder.mRl_medium.setOnClickListener(new View.OnClickListener() {
@@ -93,6 +94,7 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BookViewHodler
                     public void onClick(View view) {
                         mListener.onItemChangeStateListener(dataList.get(position), BookSimInfo.MEDIUM);
                         holder.mIvState.setImageResource(R.drawable.ic_state_medium);
+                        holder.mSwipeLayout.hideActionView();
                     }
                 });
                 holder.mRl_done.setOnClickListener(new View.OnClickListener() {
@@ -100,6 +102,7 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BookViewHodler
                     public void onClick(View view) {
                         mListener.onItemChangeStateListener(dataList.get(position), BookSimInfo.END);
                         holder.mIvState.setImageResource(R.drawable.ic_state_done);
+                        holder.mSwipeLayout.hideActionView();
                     }
                 });
             }
@@ -150,6 +153,7 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BookViewHodler
         public RelativeLayout mRl_done;
         public RelativeLayout mRl_medium;
         public RelativeLayout mRl_undone;
+        public SwipeLayout mSwipeLayout;
 
         public BookViewHodler(View itemView) {
             super(itemView);
@@ -162,6 +166,7 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BookViewHodler
             mRl_undone = (RelativeLayout) itemView.findViewById(R.id.rl_undone);
             mRl_medium = (RelativeLayout) itemView.findViewById(R.id.rl_medium);
             mRl_done = (RelativeLayout) itemView.findViewById(R.id.rl_done);
+            mSwipeLayout = (SwipeLayout) itemView.findViewById(R.id.sl_layout);
         }
 
     }

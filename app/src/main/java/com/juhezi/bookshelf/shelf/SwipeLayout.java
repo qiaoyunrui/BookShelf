@@ -140,23 +140,12 @@ public class SwipeLayout extends LinearLayout {
         }
         lastX = x;
         lastY = y;
-
         return super.dispatchTouchEvent(ev);
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         viewDragHelper.processTouchEvent(event);
-//        Log.i(TAG, "onTouchEvent: ");
-//        Boolean tag = true;
-//        switch (event.getAction()) {
-//            case MotionEvent.ACTION_DOWN:
-//                tag = true;
-//                break;
-//            case MotionEvent.ACTION_MOVE:
-//                tag = false;
-//                break;
-//        }
         return true;
     }
 
@@ -166,5 +155,10 @@ public class SwipeLayout extends LinearLayout {
         if (viewDragHelper.continueSettling(true)) {
             ViewCompat.postInvalidateOnAnimation(this);
         }
+    }
+
+    public void hideActionView() {
+        viewDragHelper.smoothSlideViewTo(contentView, 0, 0);
+        ViewCompat.postInvalidateOnAnimation(SwipeLayout.this);
     }
 }
