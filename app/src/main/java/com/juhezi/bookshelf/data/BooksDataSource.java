@@ -5,39 +5,51 @@ import com.juhezi.bookshelf.dataModule.BookSimInfo;
 
 import java.util.List;
 
+import io.realm.RealmResults;
+import rx.Observable;
+
 
 /**
  * Created by qiaoyunrui on 16-8-4.
  */
 public interface BooksDataSource {
 
-    boolean isRepeat(String isbn);
-
     interface LoadSimBooksCallback {
+
         void onSimBooksLoaded(List<BookSimInfo> dataList);
 
         void onDataNotAvailable();
+
     }
 
     interface GetBookInfoCallback {
+
         void onBookInfoLoaded(BookInfo bookInfo);
 
         void onDataNotAvailable();
+
     }
 
-    interface OperateCallback {
-        void complete();
+    interface OperateCallback<T> {
+
+        void complete(T t);
 
         void error();
+
     }
 
-    void getBookSimInfos(LoadSimBooksCallback callback);
+    Observable<List<BookSimInfo>> getBooks();
 
-    void refreshSimInfos(LoadSimBooksCallback callback);
 
-    void saveBookInfo(BookSimInfo bookSimInfo, OperateCallback callback);
+    Observable<BookSimInfo> getBookByIsbn(String isbn);
 
-    void deleteBook(String id);
+    void saveBook(BookSimInfo bookSimInfo, OperateCallback<BookSimInfo> callback);
 
-    void changeState(String id, int state);
+    void deleteBook(String id, OperateCallback<BookSimInfo> callback);
+
+    void deleteAllBooks(OperateCallback<BookSimInfo> callback);
+
+    void changeBookState(String id, int state, OperateCallback<BookSimInfo> callback);
+
+    boolean isRepeat(String isbn);
 }

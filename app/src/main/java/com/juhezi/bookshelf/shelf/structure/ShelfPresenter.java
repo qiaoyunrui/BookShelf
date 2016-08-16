@@ -2,6 +2,7 @@ package com.juhezi.bookshelf.shelf.structure;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -13,6 +14,7 @@ import com.juhezi.bookshelf.dataModule.BookService;
 import com.juhezi.bookshelf.dataModule.BookSimInfo;
 import com.juhezi.bookshelf.other.Config;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -22,6 +24,10 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import rx.Observer;
+import rx.Scheduler;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by qiaoyunrui on 16-8-3.
@@ -52,6 +58,7 @@ public class ShelfPresenter implements ShelfContract.Presenter {
     @Override
     public void start() {
         mShelfView.requestPrimission(); //请求权限
+        mShelfView.showProgressbar();
         load();
     }
 
@@ -62,65 +69,47 @@ public class ShelfPresenter implements ShelfContract.Presenter {
 
     @Override
     public void refresh() {
-        mShelfView.showProgressbar();
-        mBooksRepository.refreshSimInfos(new BooksDataSource.LoadSimBooksCallback() {
-            @Override
-            public void onSimBooksLoaded(final List<BookSimInfo> dataList) {
-                mShelfView.post(new Runnable() {
+        mBooksRepository.getBooks()
+                .subscribe(new Observer<List<BookSimInfo>>() {
                     @Override
-                    public void run() {
-                        mShelfView.updateRecycler(dataList);
-                        mShelfView.hideProgressbar();
+                    public void onCompleted() {
                     }
-                });
 
-            }
-
-            @Override
-            public void onDataNotAvailable() {
-                mShelfView.post(new Runnable() {
                     @Override
-                    public void run() {
-                        mShelfView.hideProgressbar();
+                    public void onError(Throwable e) {
                         mShelfView.showErrorToast();
                     }
+
+                    @Override
+                    public void onNext(List<BookSimInfo> list) {
+                        mShelfView.hideProgressbar();
+                        mShelfView.updateRecycler(list);
+                    }
                 });
-            }
-        });
     }
 
     @Override
     public void saveData(final BookSimInfo bookSimInfo) {
-        mShelfView.showProgressbar();
-        mBooksRepository.saveBookInfo(bookSimInfo, new BooksDataSource.OperateCallback() {
+        mBooksRepository.saveBook(bookSimInfo, new BooksDataSource.OperateCallback<BookSimInfo>() {
             @Override
-            public void complete() {
-                mShelfView.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        //Recycler动画
-                        mShelfView.recyclerViewAdd(bookSimInfo);
-                        mShelfView.recyclerViewScrollTop();
-                        mShelfView.hideProgressbar();
-                    }
-                });
+            public void complete(BookSimInfo bookSimInfo) {
+                mShelfView.showSnackbar(ShelfFragment.SUCCESS);
+                mShelfView.recyclerViewAdd(bookSimInfo);
+                mShelfView.recyclerViewScrollTop();
+                mShelfView.hideProgressbar();
             }
 
             @Override
             public void error() {
-                mShelfView.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        mShelfView.showErrorToast();
-                        mShelfView.hideProgressbar();
-                    }
-                });
+                mShelfView.showErrorToast();
+                mShelfView.hideProgressbar();
             }
         });
     }
 
     @Override
     public void handleData(String isbn) {
+//        mShelfView.showProgressbar();
         Call<BookInfo> call = mBookService.getBookInfo(isbn);
         final BookSimInfo[] bookSimInfo = {null};
         call.enqueue(new Callback<BookInfo>() {
@@ -128,13 +117,11 @@ public class ShelfPresenter implements ShelfContract.Presenter {
             public void onResponse(Call<BookInfo> call, Response<BookInfo> response) {
                 if (response.code() == 200) {
                     bookSimInfo[0] = response.body().toBookSimInfo();
-                    if (mBooksRepository.isRepeat(bookSimInfo[0].getIsbn())) {
+                    if (mBooksRepository.isRepeat(bookSimInfo[0].getIsbn())) {  //书籍重复
                         mShelfView.showSnackbar(ShelfFragment.REPEAT);
                         mShelfView.hideProgressbar();
                     } else {
                         saveData(bookSimInfo[0]);
-                        mShelfView.showSnackbar(ShelfFragment.SUCCESS);
-                        mShelfView.hideProgressbar();
                     }
                 } else {
                     mShelfView.showSnackbar(ShelfFragment.FAIL);
@@ -151,13 +138,13 @@ public class ShelfPresenter implements ShelfContract.Presenter {
     }
 
     @Override
-    public void deleteData(String id) {
-        mBooksRepository.deleteBook(id);
+    public void deleteData(String id, BooksDataSource.OperateCallback<BookSimInfo> callback) {
+        mBooksRepository.deleteBook(id, callback);
     }
 
     @Override
-    public void changeState(String id, int state) {
-        mBooksRepository.changeState(id, state);
+    public void changeState(String id, int state, BooksDataSource.OperateCallback<BookSimInfo> callback) {
+        mBooksRepository.changeBookState(id, state, callback);
     }
 
     @Override

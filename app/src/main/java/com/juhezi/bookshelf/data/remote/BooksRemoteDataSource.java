@@ -5,6 +5,11 @@ import android.content.Context;
 import com.juhezi.bookshelf.data.BooksDataSource;
 import com.juhezi.bookshelf.dataModule.BookSimInfo;
 
+import java.util.List;
+
+import io.realm.RealmResults;
+import rx.Observable;
+
 /**
  * Created by qiaoyunrui on 16-8-4.
  */
@@ -28,33 +33,37 @@ public class BooksRemoteDataSource implements BooksDataSource {
     }
 
     @Override
+    public Observable<List<BookSimInfo>> getBooks() {
+        return null;
+    }
+
+    @Override
+    public Observable<BookSimInfo> getBookByIsbn(String isbn) {
+        return null;
+    }
+
+    @Override
+    public void saveBook(BookSimInfo bookSimInfo, OperateCallback<BookSimInfo> callback) {
+
+    }
+
+    @Override
+    public void deleteBook(String id, OperateCallback<BookSimInfo> callback) {
+
+    }
+
+    @Override
+    public void deleteAllBooks(OperateCallback<BookSimInfo> callback) {
+
+    }
+
+    @Override
+    public void changeBookState(String id, int state, OperateCallback<BookSimInfo> callback) {
+
+    }
+
+    @Override
     public boolean isRepeat(String isbn) {
         return false;
     }
-
-    @Override
-    public void getBookSimInfos(LoadSimBooksCallback callback) {
-
-    }
-
-    @Override
-    public void refreshSimInfos(LoadSimBooksCallback callback) {
-
-    }
-
-    @Override
-    public void saveBookInfo(BookSimInfo bookSimInfo, OperateCallback callback) {
-
-    }
-
-    @Override
-    public void deleteBook(String id) {
-
-    }
-
-    @Override
-    public void changeState(String id, int state) {
-
-    }
-
 }

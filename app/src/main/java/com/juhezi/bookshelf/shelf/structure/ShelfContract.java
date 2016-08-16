@@ -5,6 +5,7 @@ import android.view.MenuItem;
 
 import com.juhezi.bookshelf.BasePresenter;
 import com.juhezi.bookshelf.BaseView;
+import com.juhezi.bookshelf.data.BooksDataSource;
 import com.juhezi.bookshelf.dataModule.BookSimInfo;
 
 import java.util.List;
@@ -24,9 +25,9 @@ public interface ShelfContract {
 
         void handleData(String isbn);
 
-        void deleteData(String id);
+        void deleteData(String id, BooksDataSource.OperateCallback<BookSimInfo> callback);
 
-        void changeState(String id, int state);
+        void changeState(String id, int state, BooksDataSource.OperateCallback<BookSimInfo> callback);
 
         void changeLayout(MenuItem view);
 
@@ -52,8 +53,6 @@ public interface ShelfContract {
         void requestPrimission();
 
         void showErrorToast();
-
-        void post(Runnable r);
 
         void showSnackbar(int type);
 

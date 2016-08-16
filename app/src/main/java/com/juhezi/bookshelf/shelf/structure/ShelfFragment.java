@@ -12,6 +12,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -24,6 +25,7 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.juhezi.bookshelf.R;
+import com.juhezi.bookshelf.data.BooksDataSource;
 import com.juhezi.bookshelf.dataModule.BookSimInfo;
 import com.juhezi.bookshelf.other.Config;
 import com.juhezi.bookshelf.shelf.BookAdapter;
@@ -87,13 +89,23 @@ public class ShelfFragment extends Fragment implements ShelfContract.View {
                 .setPositiveButton("确认", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        mPresenter.deleteData(id);
-                        mAdapter.delete(pos, new BookAdapter.Callback() {
+                        mPresenter.deleteData(id, new BooksDataSource.OperateCallback<BookSimInfo>() {
                             @Override
-                            public void onCompleteTask() {
-                                showEmptyView();
+                            public void complete(BookSimInfo bookSimInfo) {
+                                mAdapter.delete(pos, new BookAdapter.Callback() {
+                                    @Override
+                                    public void onCompleteTask() {
+                                        showEmptyView();
+                                    }
+                                });
+                            }
+
+                            @Override
+                            public void error() {
+                                showErrorToast();
                             }
                         });
+
                     }
                 })
                 .setNegativeButton("取消", null);
@@ -129,7 +141,6 @@ public class ShelfFragment extends Fragment implements ShelfContract.View {
         mAdapter.setItemListener(new BookAdapter.BookItemListener() {
             @Override
             public void onItemClick(BookSimInfo bookSimInfo) {
-                Log.i(TAG, "onItemClick: click");
                 turn2ContentAct(bookSimInfo);
             }
 
@@ -142,12 +153,22 @@ public class ShelfFragment extends Fragment implements ShelfContract.View {
 
             @Override
             public void onItemChangeStateListener(BookSimInfo bookSimInfo, int state) {
-                mPresenter.changeState(bookSimInfo.getId(), state);
-            }
+                mPresenter.changeState(bookSimInfo.getId(), state, new BooksDataSource.OperateCallback<BookSimInfo>() {
+                    @Override
+                    public void complete(BookSimInfo bookSimInfo) {
 
+                    }
+
+                    @Override
+                    public void error() {
+
+                    }
+                });
+            }
 
         });
         mRvList.setAdapter(mAdapter);
+//        mRvList.setHasFixedSize(true);
     }
 
     @Override
@@ -223,13 +244,6 @@ public class ShelfFragment extends Fragment implements ShelfContract.View {
     }
 
     @Override
-    public void post(Runnable r) {
-        if (getActivity() != null) {
-            getActivity().runOnUiThread(r);
-        }
-    }
-
-    @Override
     public void showSnackbar(int type) {
         switch (type) {
             case SUCCESS:
@@ -292,10 +306,8 @@ public class ShelfFragment extends Fragment implements ShelfContract.View {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == ZXING_CODE) {
             if (data != null) {
-                showProgressbar();
                 Bundle bundle = data.getExtras();
                 if (bundle == null) {
-                    hideProgressbar();
                     return;
                 }
                 if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_SUCCESS) {

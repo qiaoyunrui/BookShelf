@@ -6,8 +6,12 @@ import android.util.Log;
 
 import com.juhezi.bookshelf.dataModule.BookSimInfo;
 
+import java.util.List;
+
 import javax.inject.Inject;
 import javax.inject.Singleton;
+
+import rx.Observable;
 
 /**
  * Created by qiaoyunrui on 16-8-4.
@@ -39,40 +43,37 @@ public class BooksRepository implements BooksDataSource {
     }
 
     @Override
-    public void getBookSimInfos(final LoadSimBooksCallback callback) {
-        mBooksLocalDataSource.getBookSimInfos(callback);
-
+    public Observable<List<BookSimInfo>> getBooks() {
+        return mBooksLocalDataSource.getBooks();
     }
 
     @Override
-    public void refreshSimInfos(LoadSimBooksCallback callback) {
-        mBooksLocalDataSource.refreshSimInfos(callback);
+    public Observable<BookSimInfo> getBookByIsbn(String isbn) {
+        return mBooksLocalDataSource.getBookByIsbn(isbn);
     }
 
     @Override
-    public void saveBookInfo(final BookSimInfo bookSimInfo, final OperateCallback callback) {
-        mBooksLocalDataSource.saveBookInfo(bookSimInfo, callback);
+    public void saveBook(BookSimInfo bookSimInfo, OperateCallback<BookSimInfo> callback) {
+        mBooksLocalDataSource.saveBook(bookSimInfo, callback);
     }
 
     @Override
-    public void deleteBook(String id) {
-        mBooksLocalDataSource.deleteBook(id);
+    public void deleteBook(String id, OperateCallback<BookSimInfo> callback) {
+        mBooksLocalDataSource.deleteBook(id, callback);
     }
 
     @Override
-    public void changeState(String id, int state) {
-        mBooksLocalDataSource.changeState(id, state);
+    public void deleteAllBooks(OperateCallback<BookSimInfo> callback) {
+        mBooksLocalDataSource.deleteAllBooks(callback);
     }
 
-    /**
-     * 根据isbn检查数据库中是否存在相同书籍
-     *
-     * @param isbn
-     * @return
-     */
+    @Override
+    public void changeBookState(String id, int state, OperateCallback<BookSimInfo> callback) {
+        mBooksLocalDataSource.changeBookState(id, state, callback);
+    }
+
     @Override
     public boolean isRepeat(String isbn) {
         return mBooksLocalDataSource.isRepeat(isbn);
     }
-
 }

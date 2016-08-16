@@ -173,7 +173,6 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BookViewHodler
 
     }
 
-
     public interface BookItemListener {
         void onItemClick(BookSimInfo bookSimInfo);
 
