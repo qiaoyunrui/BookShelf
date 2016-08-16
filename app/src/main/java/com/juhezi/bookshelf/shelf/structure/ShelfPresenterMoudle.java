@@ -1,5 +1,7 @@
 package com.juhezi.bookshelf.shelf.structure;
 
+import android.content.Context;
+
 import dagger.Module;
 import dagger.Provides;
 
@@ -9,12 +11,13 @@ import dagger.Provides;
 @Module
 public class ShelfPresenterMoudle {
 
-    private static final String TAG = "ShelfPresenterMoudle";
-
     private final ShelfContract.View mView;
 
-    public ShelfPresenterMoudle(ShelfContract.View view) {
+    private final Context mContext;
+
+    public ShelfPresenterMoudle(ShelfContract.View view, Context context) {
         this.mView = view;
+        this.mContext = context;
     }
 
     @Provides
@@ -22,4 +25,8 @@ public class ShelfPresenterMoudle {
         return mView;
     }
 
+    @Provides
+    Context provideContext() {
+        return mContext;
+    }
 }

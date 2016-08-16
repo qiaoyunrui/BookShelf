@@ -9,6 +9,8 @@ import com.juhezi.bookshelf.dataModule.BookSimInfo;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Singleton;
+
 import io.realm.Realm;
 import io.realm.RealmQuery;
 import io.realm.RealmResults;
@@ -17,6 +19,7 @@ import io.realm.Sort;
 /**
  * Created by qiaoyunrui on 16-8-4.
  */
+@Singleton
 public class BooksLocalDataSource implements BooksDataSource {
 
     private static final String TAG = "BooksLocalDataSource";

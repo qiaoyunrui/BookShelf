@@ -6,9 +6,13 @@ import android.util.Log;
 
 import com.juhezi.bookshelf.dataModule.BookSimInfo;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 /**
  * Created by qiaoyunrui on 16-8-4.
  */
+@Singleton
 public class BooksRepository implements BooksDataSource {
 
     private static final String TAG = "BooksRepository";
@@ -27,8 +31,9 @@ public class BooksRepository implements BooksDataSource {
         return sInstance;
     }
 
-    private BooksRepository(@NonNull BooksDataSource booksLocalDataSource,
-                            @NonNull BooksDataSource booksRemoteDataSource) {
+    @Inject
+    public BooksRepository(@Local BooksDataSource booksLocalDataSource,
+                           @Remote BooksDataSource booksRemoteDataSource) {
         this.mBooksLocalDataSource = booksLocalDataSource;
         this.mBooksRemoteDataSource = booksRemoteDataSource;
     }

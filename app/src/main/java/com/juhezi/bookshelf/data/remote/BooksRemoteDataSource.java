@@ -16,7 +16,7 @@ public class BooksRemoteDataSource implements BooksDataSource {
 
     private static BooksRemoteDataSource sDataSource;
 
-    private BooksRemoteDataSource(Context context) {
+    public BooksRemoteDataSource(Context context) {
         this.mContext = context;
     }
 

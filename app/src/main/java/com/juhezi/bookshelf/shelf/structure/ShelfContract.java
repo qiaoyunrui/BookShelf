@@ -1,11 +1,10 @@
 package com.juhezi.bookshelf.shelf.structure;
 
+import android.content.Context;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.juhezi.bookshelf.BasePresenter;
 import com.juhezi.bookshelf.BaseView;
-import com.juhezi.bookshelf.data.BooksDataSource;
 import com.juhezi.bookshelf.dataModule.BookSimInfo;
 
 import java.util.List;

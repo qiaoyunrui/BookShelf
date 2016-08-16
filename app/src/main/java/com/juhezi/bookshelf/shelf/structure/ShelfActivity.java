@@ -10,15 +10,19 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.juhezi.bookshelf.BookShelfApplication;
 import com.juhezi.bookshelf.R;
 import com.juhezi.bookshelf.data.BooksRepository;
 import com.juhezi.bookshelf.data.local.BooksLocalDataSource;
 import com.juhezi.bookshelf.data.remote.BooksRemoteDataSource;
 
+import javax.inject.Inject;
+
 public class ShelfActivity extends AppCompatActivity {
 
     private DrawerLayout mDrawerLayout;
-    private ShelfPresenter mPresenter;
+    @Inject
+    ShelfPresenter mPresenter;
     private ShelfFragment mShelfFragment;
 
     private static final String TAG = "ShelfActivity";
@@ -68,10 +72,16 @@ public class ShelfActivity extends AppCompatActivity {
     }
 
     private void initPresenter() {
-        BooksRepository booksRepository = BooksRepository.newInstance(
-                BooksLocalDataSource.newInstance(this),
-                BooksRemoteDataSource.newInstance(this));
-        mPresenter = new ShelfPresenter(mShelfFragment, booksRepository, this);
+//        BooksRepository booksRepository = BooksRepository.newInstance(
+//                BooksLocalDataSource.newInstance(this),
+//                BooksRemoteDataSource.newInstance(this));
+//        mPresenter = new ShelfPresenter(mShelfFragment, booksRepository, this);
+        DaggerShelfComponent.builder()
+                .booksRepositoryComponent(((BookShelfApplication) getApplication())
+                        .getmBooksRepositoryComponent())
+                .shelfPresenterMoudle(new ShelfPresenterMoudle(mShelfFragment, this))
+                .build()
+                .inject(this);
     }
 
     private void setupDrawerContent(NavigationView navigationView) {

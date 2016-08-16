@@ -38,8 +38,8 @@ public class ShelfPresenter implements ShelfContract.Presenter {
 
     @Inject
     public ShelfPresenter(ShelfContract.View shelfView, BooksRepository booksRepository, Context context) {
-        this.mContext = context;
         this.mShelfView = shelfView;
+        this.mContext = context;
         mShelfView.setPresenter(this);
         this.mBooksRepository = booksRepository;
         mRetrofit = new Retrofit.Builder()
