@@ -76,13 +76,12 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BookViewHodler
                         mListener.onItemDeleteListener(dataList.get(position), position);
                     }
                 });
-                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                holder.mSwipeLayout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         mListener.onItemClick(dataList.get(position));
                     }
                 });
-                //anthor listener
                 holder.mRl_undone.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {

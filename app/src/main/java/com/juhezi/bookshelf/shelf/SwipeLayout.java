@@ -25,6 +25,8 @@ public class SwipeLayout extends LinearLayout {
     private int lastX;
     private int lastY;
 
+    private int tag;
+
     public SwipeLayout(Context context) {
         this(context, null);
     }
@@ -146,6 +148,20 @@ public class SwipeLayout extends LinearLayout {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         viewDragHelper.processTouchEvent(event);
+
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                tag = 0;
+                break;
+            case MotionEvent.ACTION_MOVE:
+                tag++;
+                break;
+            case MotionEvent.ACTION_UP:
+                break;
+        }
+        if (tag <= 3) {     //检测滑动的次数
+            super.onTouchEvent(event);
+        }
         return true;
     }
 
@@ -160,5 +176,10 @@ public class SwipeLayout extends LinearLayout {
     public void hideActionView() {
         viewDragHelper.smoothSlideViewTo(contentView, 0, 0);
         ViewCompat.postInvalidateOnAnimation(SwipeLayout.this);
+    }
+
+    @Override
+    public boolean performClick() {
+        return super.performClick();
     }
 }
