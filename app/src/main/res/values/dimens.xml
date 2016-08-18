@@ -10,4 +10,7 @@
     <dimen name="card_view_margin">5dp</dimen>
     <dimen name="card_view_margin2">10dp</dimen>
     <dimen name="action_item_width">70dp</dimen>
+    <dimen name="expandedTitleMarginStart">80dp</dimen>
+    <dimen name="douban_rating_size">20dp</dimen>
+    <dimen name="rating_text_size">40dp</dimen>
 </resources>

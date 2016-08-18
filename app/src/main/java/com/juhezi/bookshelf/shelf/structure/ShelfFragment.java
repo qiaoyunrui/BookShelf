@@ -25,6 +25,7 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.juhezi.bookshelf.R;
+import com.juhezi.bookshelf.content.ContentActivity;
 import com.juhezi.bookshelf.data.BooksDataSource;
 import com.juhezi.bookshelf.dataModule.BookSimInfo;
 import com.juhezi.bookshelf.other.Config;
@@ -62,6 +63,7 @@ public class ShelfFragment extends Fragment implements ShelfContract.View {
     private int pos;
     private StaggeredGridLayoutManager staggeredGridLayoutManager;
     private LinearLayoutManager linearLayoutManager;
+    private Intent contentIntent;
 
     private List<BookSimInfo> dataList = new ArrayList<>();
 
@@ -201,6 +203,7 @@ public class ShelfFragment extends Fragment implements ShelfContract.View {
     @Override
     public void onResume() {
         super.onResume();
+        contentIntent = new Intent(getContext(), ContentActivity.class);
         if (mPresenter != null) {
             mPresenter.start();
         }
@@ -230,7 +233,7 @@ public class ShelfFragment extends Fragment implements ShelfContract.View {
 
     @Override
     public void turn2ContentAct(BookSimInfo bookSimInfo) {
-
+        startActivity(contentIntent);
     }
 
     @Override

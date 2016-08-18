@@ -3,4 +3,14 @@
     <string name="string_temp">Temp</string>
     <string name="exchange_layout">切换布局</string>
     <string name="delete_all">删除全部</string>
+    <string name="douban_rating">豆瓣评分</string>
+    <string name="author">作者：</string>
+    <string name="pubdate">出版日期：</string>
+    <string name="tag">标签</string>
+    <string name="translator">译者</string>
+    <string name="catalog">章节目录</string>
+    <string name="pages">页数</string>
+    <string name="publisher">出版社</string>
+    <string name="summary">简介</string>
+    <string name="open_on_douban">在豆瓣中查看</string>
 </resources>

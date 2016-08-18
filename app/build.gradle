@@ -45,4 +45,5 @@ dependencies {
     compile rootProject.ext.libZxing
     compile rootProject.ext.libEasypermissions
     compile rootProject.ext.libConverterGson
+    compile 'com.google.android.gms:play-services-appindexing:8.1.0'
 }
