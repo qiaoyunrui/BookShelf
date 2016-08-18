@@ -57,6 +57,7 @@ public class ShelfFragment extends Fragment implements ShelfContract.View {
     private RelativeLayout mEmptyView;
     private BookAdapter mAdapter;
     private AlertDialog.Builder mBuilder;
+    private AlertDialog.Builder mBuilderDeleteAll;
     private String id;
     private int pos;
     private StaggeredGridLayoutManager staggeredGridLayoutManager;
@@ -98,6 +99,28 @@ public class ShelfFragment extends Fragment implements ShelfContract.View {
                                         showEmptyView();
                                     }
                                 });
+                            }
+
+                            @Override
+                            public void error() {
+                                showErrorToast();
+                            }
+                        });
+
+                    }
+                })
+                .setNegativeButton("取消", null);
+        mBuilderDeleteAll = new AlertDialog.Builder(getContext())
+                .setTitle("确认删除?")
+                .setMessage("删除之后无法恢复")
+                .setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        mPresenter.deleteAll(new BooksDataSource.OperateCallback<BookSimInfo>() {
+                            @Override
+                            public void complete(BookSimInfo bookSimInfo) {
+                                mAdapter.clear();
+                                showEmptyView();
                             }
 
                             @Override
@@ -168,7 +191,6 @@ public class ShelfFragment extends Fragment implements ShelfContract.View {
 
         });
         mRvList.setAdapter(mAdapter);
-//        mRvList.setHasFixedSize(true);
     }
 
     @Override
@@ -214,6 +236,11 @@ public class ShelfFragment extends Fragment implements ShelfContract.View {
     @Override
     public void showDialog() {
         mBuilder.create().show();
+    }
+
+    @Override
+    public void showDialogDeleteAll() {
+        mBuilderDeleteAll.create().show();
     }
 
     @Override
@@ -301,6 +328,7 @@ public class ShelfFragment extends Fragment implements ShelfContract.View {
     public void hideEmptyView() {
         mEmptyView.setVisibility(View.INVISIBLE);
     }
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

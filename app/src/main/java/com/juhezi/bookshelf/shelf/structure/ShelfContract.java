@@ -33,6 +33,7 @@ public interface ShelfContract {
 
         boolean getLayoutState();
 
+        void deleteAll(BooksDataSource.OperateCallback<BookSimInfo> callback);
     }
 
 
@@ -67,6 +68,9 @@ public interface ShelfContract {
         void showEmptyView();
 
         void hideEmptyView();
+
+        void showDialogDeleteAll();
+
     }
 
 }

@@ -144,6 +144,11 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BookViewHodler
         notifyItemInserted(0);
     }
 
+    public void clear() {
+        dataList.clear();
+        notifyDataSetChanged();
+    }
+
     public class BookViewHodler extends RecyclerView.ViewHolder {
 
         public ImageView mImgCover;

@@ -111,7 +111,6 @@ public class ShelfPresenter implements ShelfContract.Presenter {
 
     @Override
     public void handleData(String isbn) {
-//        mShelfView.showProgressbar();
         Call<BookInfo> call = mBookService.getBookInfo(isbn);
         final BookSimInfo[] bookSimInfo = {null};
         call.enqueue(new Callback<BookInfo>() {
@@ -172,5 +171,10 @@ public class ShelfPresenter implements ShelfContract.Presenter {
             mSharedPreferences = mContext.getSharedPreferences(Config.SHARE_PREFERENCE, Context.MODE_PRIVATE);
         }
         return mSharedPreferences.getBoolean(Config.LAYOUT_STATE, true);
+    }
+
+    @Override
+    public void deleteAll(BooksDataSource.OperateCallback<BookSimInfo> callback) {
+        mBooksRepository.deleteAllBooks(callback);
     }
 }

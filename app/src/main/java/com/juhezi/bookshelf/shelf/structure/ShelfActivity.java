@@ -110,7 +110,8 @@ public class ShelfActivity extends AppCompatActivity {
             case R.id.item_exchange_layout:
                 mPresenter.changeLayout(item);
                 break;
-            default:
+            case R.id.item_delete_all:
+                mShelfFragment.showDialogDeleteAll();
                 break;
         }
         return super.onOptionsItemSelected(item);
