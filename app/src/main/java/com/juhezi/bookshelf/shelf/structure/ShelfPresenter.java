@@ -77,6 +77,7 @@ public class ShelfPresenter implements ShelfContract.Presenter {
 
                     @Override
                     public void onError(Throwable e) {
+                        Log.i(TAG, "onError: ");
                         mShelfView.showErrorToast();
                     }
 
@@ -85,7 +86,8 @@ public class ShelfPresenter implements ShelfContract.Presenter {
                         mShelfView.hideProgressbar();
                         mShelfView.updateRecycler(list);
                     }
-                });
+                })
+                .unsubscribe();
     }
 
     @Override

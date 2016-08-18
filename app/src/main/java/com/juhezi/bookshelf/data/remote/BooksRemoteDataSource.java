@@ -32,6 +32,7 @@ public class BooksRemoteDataSource implements BooksDataSource {
         return sDataSource;
     }
 
+
     @Override
     public Observable<List<BookSimInfo>> getBooks() {
         return null;

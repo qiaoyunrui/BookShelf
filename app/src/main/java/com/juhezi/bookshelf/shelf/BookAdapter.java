@@ -121,7 +121,8 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BookViewHodler
     }
 
     public void setDataList(List<BookSimInfo> dataList) {
-        this.dataList = dataList;
+        this.dataList.clear();
+        this.dataList.addAll(dataList);
     }
 
     public void setItemListener(BookItemListener listener) {

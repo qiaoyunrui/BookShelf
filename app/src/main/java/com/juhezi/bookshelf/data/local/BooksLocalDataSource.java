@@ -45,66 +45,6 @@ public class BooksLocalDataSource implements BooksDataSource {
         return sDataSource;
     }
 
-    /*@Override
-    public boolean isRepeat(String isbn) {
-        RealmQuery<BookSimInfo> repeatQuery = mRealm.where(BookSimInfo.class);
-        repeatQuery.equalTo("isbn", isbn);
-        RealmResults<BookSimInfo> result = repeatQuery.findAll();
-        return result.size() > 0;
-    }
-
-    @Override
-    public void getBookSimInfos(LoadSimBooksCallback callback) {
-        refreshSimInfos(callback);
-    }
-
-
-
-    @Override
-    public void saveBookInfo(BookSimInfo bookSimInfo, OperateCallback callback) {
-        if (bookSimInfo != null) {
-            mRealm.beginTransaction();
-            mRealm.copyToRealmOrUpdate(bookSimInfo);
-            mRealm.commitTransaction();
-            callback.complete();
-        } else {
-            callback.error();
-        }
-
-    }
-
-    @Override
-    public void deleteBook(String id) {
-        RealmQuery<BookSimInfo> repeatQuery = mRealm.where(BookSimInfo.class);
-        repeatQuery.equalTo("id", id);
-        RealmResults<BookSimInfo> result = repeatQuery.findAll();
-        mRealm.beginTransaction();
-        result.get(0).deleteFromRealm();
-        mRealm.commitTransaction();
-    }
-
-    @Override
-    public void changeState(String id, int state) {
-        RealmQuery<BookSimInfo> repeatQuery = mRealm.where(BookSimInfo.class);
-        repeatQuery.equalTo("id", id);
-        RealmResults<BookSimInfo> result = repeatQuery.findAll();
-        mRealm.beginTransaction();
-        result.get(0).setiState(state);
-        mRealm.commitTransaction();
-    }
-
-
-    @Override
-    public void refreshSimInfos(LoadSimBooksCallback callback) {
-        if (query == null) {
-            query = mRealm.where(BookSimInfo.class);
-        }
-        RealmResults<BookSimInfo> result = query.findAllSorted("time", Sort.DESCENDING); //可以优化为分页查询
-        List<BookSimInfo> list = new ArrayList<>(result.subList(0, result.size()));
-        callback.onSimBooksLoaded(list);
-    }
-    */
-
 
     @Override
     public Observable<List<BookSimInfo>> getBooks() {
@@ -115,7 +55,6 @@ public class BooksLocalDataSource implements BooksDataSource {
                     @Override
                     public List<BookSimInfo> call(RealmResults<BookSimInfo> bookSimInfos) {
                         return new ArrayList<BookSimInfo>(bookSimInfos.subList(0, bookSimInfos.size()));
-
                     }
                 });
     }
