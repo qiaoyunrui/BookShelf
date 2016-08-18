@@ -13,4 +13,5 @@ public class Config {
 
     public static String SHARE_PREFERENCE = "SHARE_PREFERENCE";
     public static String LAYOUT_STATE = "LAYOUT_STATE";
+    public static String ISBN = "ISBN";
 }

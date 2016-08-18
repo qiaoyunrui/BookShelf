@@ -117,4 +117,9 @@ public class ShelfActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected void onDestroy() {
+        mPresenter = null;
+        super.onDestroy();
+    }
 }

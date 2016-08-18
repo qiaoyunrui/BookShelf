@@ -36,7 +36,7 @@ allprojects {
 }
 
 project.ext {
-    applicationId = "com.juhezi.salaryquery"
+    applicationId = "com.juhezi.bookshelf"
     buildToolsVersion = "24.0.1"
     compileSdkVersion = 24
     minSdkVersion = 15

@@ -233,6 +233,7 @@ public class ShelfFragment extends Fragment implements ShelfContract.View {
 
     @Override
     public void turn2ContentAct(BookSimInfo bookSimInfo) {
+        contentIntent.putExtra(Config.ISBN, bookSimInfo.getIsbn());
         startActivity(contentIntent);
     }
 
